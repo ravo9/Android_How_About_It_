@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 
 // Interactor used for communication between data repository and internal database
-class ItemsDatabaseInteractor(private val itemsDatabase: ItemsDatabase) {
+class ItemsDatabaseInteractor(/*private val itemsDatabase: ItemsDatabase*/) {
 
     /*fun addNewItem(item: ApiResponse.Item?): LiveData<Boolean> {
 
@@ -26,7 +26,7 @@ class ItemsDatabaseInteractor(private val itemsDatabase: ItemsDatabase) {
         return itemSavingStatus
     }*/
 
-    fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
+    /*fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
         return itemsDatabase.getItemsDao().getSingleSavedItemById(id)
     }
 
@@ -38,7 +38,7 @@ class ItemsDatabaseInteractor(private val itemsDatabase: ItemsDatabase) {
         launch {
             itemsDatabase.getItemsDao().clearDatabase()
         }
-    }
+    }*/
 }
 
 

@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@color/colorBackground"
-        android:nestedScrollingEnabled="true">
+        android:nestedScrollingEnabled="true"
+        android:id="@+id/main_content_container">
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -40,6 +41,8 @@
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_main_content_panel_margin_side"
+                android:layout_marginEnd="@dimen/activity_main_content_panel_margin_side"
                 android:gravity="center"
                 android:numColumns="2"
                 android:nestedScrollingEnabled="true"

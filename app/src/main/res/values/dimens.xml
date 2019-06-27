@@ -5,9 +5,14 @@
 
     <dimen name="activity_main_top_panel_text_margin_side">40dp</dimen>
     <dimen name="activity_main_top_panel_search_bar_margin_side">20dp</dimen>
+    <dimen name="activity_main_content_panel_margin_side">20dp</dimen>
 
     <dimen name="background_badge_padding">3dp</dimen>
     <dimen name="background_badge_corner_radius">2dp</dimen>
+
+    <dimen name="detailed_view_vertical_extra_spacing">50dp</dimen>
+    <dimen name="detailed_view_cross_button_length">40dp</dimen>
+    <dimen name="detailed_view_cross_button_margin">20dp</dimen>
 
     <dimen name="elevation_first_floor">2dp</dimen>
 

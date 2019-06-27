@@ -6,7 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/grid_single_item_padding"
-        android:background="@color/colorBackground">
+        android:background="@drawable/background_badge"
+        android:elevation="@dimen/elevation_first_floor">
 
    <ImageView
            android:id="@+id/thumbnail"
@@ -15,7 +16,9 @@
            android:layout_height="0dp"
            android:layout_marginBottom="@dimen/grid_single_item_thumbnail_margin_bottom"
            android:scaleType="fitXY"
-           tools:ignore="MissingConstraints"/>
+           tools:ignore="MissingConstraints"
+
+           android:background="@drawable/image_placeholder"/>
 
     <TextView
             android:id="@+id/name"

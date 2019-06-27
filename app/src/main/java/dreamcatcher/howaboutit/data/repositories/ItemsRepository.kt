@@ -7,14 +7,14 @@ import dreamcatcher.howaboutit.data.database.ItemsDatabaseInteractor
 // Data Repository - the main gate of the model (data) part of the application
 class ItemsRepository (private val databaseInteractor: ItemsDatabaseInteractor) {
 
-    fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
+    /*fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
         return databaseInteractor.getSingleSavedItemById(id)
     }
 
     fun getAllItems(): LiveData<List<ItemEntity>>? {
         //updateDataFromBackEnd()
         return databaseInteractor.getAllItems()
-    }
+    }*/
 
     /*fun getNetworkError(): LiveData<Boolean>? {
         return itemsNetworkInteractor.networkError

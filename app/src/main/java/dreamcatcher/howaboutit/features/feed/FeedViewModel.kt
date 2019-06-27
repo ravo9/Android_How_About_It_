@@ -9,9 +9,9 @@ class FeedViewModel : ViewModel() {
 
     private lateinit var itemsRepository: ItemsRepository
 
-    fun getAllItems(): LiveData<List<ItemEntity>>? {
+    /*fun getAllItems(): LiveData<List<ItemEntity>>? {
         return itemsRepository.getAllItems()
-    }
+    }*/
 
     /*fun getNetworkError(): LiveData<Boolean>? {
         return itemsRepository.getNetworkError()

@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import dreamcatcher.howaboutit.R
+import dreamcatcher.howaboutit.data.database.ItemEntity
+import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 // Main items feed) view
@@ -20,9 +24,10 @@ class FeedActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
 
         // Initialize RecyclerView (items/ products list)
-        //setupRecyclerView()
+        setupRecyclerView()
 
         // Fetch items (products) from the file and load them into the view
+        uploadFakeItems()
         //subscribeForItems()
 
         // Catch and handle potential network issues
@@ -47,10 +52,38 @@ class FeedActivity : AppCompatActivity() {
         }
     }*/
 
-    /*private fun setupRecyclerView() {
-        itemsGridAdapter = ItemsGridAdapter(this)
-        gridView_products.adapter = itemsGridAdapter
-    }*/
+    private fun setupRecyclerView() {
+        itemsGridAdapter = ItemsGridAdapter(this){ itemId: String -> displayDetailedView(itemId) }
+        gridView.adapter = itemsGridAdapter
+    }
+
+    private fun uploadFakeItems() {
+
+        val fakeList = LinkedList<ItemEntity>()
+
+        val name = "Karton"
+        val image = ""
+        val fakeItem = ItemEntity(name, image)
+
+        for (i in 0..9) {
+            fakeList.add(fakeItem)
+        }
+
+        itemsGridAdapter.setItems(fakeList)
+    }
+
+    private fun displayDetailedView(itemId: String) {
+
+        val fragment = DetailedViewFragment()
+        //val bundle = Bundle()
+        //bundle.putString("articleId", articleId)
+        //fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.main_content_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
     /*private fun subscribeForItems() {
         viewModel.getAllItems()?.observe(this, Observer<List<ItemEntity>> {
