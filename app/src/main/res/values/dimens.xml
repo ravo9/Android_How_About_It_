@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dimensions Section -->
+
+    <dimen name="activity_main_top_panel_text_margin_side">40dp</dimen>
+    <dimen name="activity_main_top_panel_search_bar_margin_side">20dp</dimen>
+
+    <dimen name="background_badge_padding">3dp</dimen>
+    <dimen name="background_badge_corner_radius">2dp</dimen>
+
+    <dimen name="elevation_first_floor">2dp</dimen>
+
+    <dimen name="grid_single_item_height">350dp</dimen>
+    <dimen name="grid_single_item_padding">15dp</dimen>
+    <dimen name="grid_single_item_thumbnail_margin_bottom">20dp</dimen>
+
+</resources>

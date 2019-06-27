@@ -1,3 +1,7 @@
 <resources>
+
     <string name="app_name">How About It</string>
+
+    <string name="wyszukaj_lub_wybierz_rodzaj_odpadu">Wyszukaj lub wybierz rodzaj odpadu\nz listy poniżej, aby dowiedzieć się jak go prawidłowo zutylizować</string>
+
 </resources>

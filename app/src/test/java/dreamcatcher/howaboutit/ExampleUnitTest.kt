@@ -1,4 +1,4 @@
-package com.example.howaboutit
+package development.dreamcatcher.howaboutit
 
 import org.junit.Test
 
