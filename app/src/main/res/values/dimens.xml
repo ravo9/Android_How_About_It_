@@ -11,10 +11,13 @@
     <dimen name="background_badge_corner_radius">2dp</dimen>
 
     <dimen name="detailed_view_vertical_extra_spacing">50dp</dimen>
-    <dimen name="detailed_view_cross_button_length">40dp</dimen>
+    <dimen name="detailed_view_vertical_side_spacing">25dp</dimen>
+    <dimen name="detailed_view_cross_button_length">34dp</dimen>
     <dimen name="detailed_view_cross_button_margin">20dp</dimen>
+    <dimen name="detailed_view_image_height">160dp</dimen>
 
     <dimen name="elevation_first_floor">2dp</dimen>
+    <dimen name="elevation_second_floor">4dp</dimen>
 
     <dimen name="grid_single_item_height">350dp</dimen>
     <dimen name="grid_single_item_padding">15dp</dimen>

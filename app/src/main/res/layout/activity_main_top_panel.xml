@@ -21,16 +21,24 @@
 
             android:text="@string/wyszukaj_lub_wybierz_rodzaj_odpadu"/>
 
-    <ImageView
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_badge"
+            android:elevation="@dimen/elevation_first_floor"
 
             android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
             android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="25dp">
 
-            android:background="@drawable/background_badge"
-            android:elevation="@dimen/elevation_first_floor"/>
+        <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/image_search_non_commercial"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

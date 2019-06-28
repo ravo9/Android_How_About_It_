@@ -4,4 +4,13 @@
 
     <string name="wyszukaj_lub_wybierz_rodzaj_odpadu">Wyszukaj lub wybierz rodzaj odpadu\nz listy poniżej, aby dowiedzieć się jak go prawidłowo zutylizować</string>
 
+
+    <string name="fake_text">
+        1.   Zgnieć karton aby pozbyć się resztek mleka.\n
+        2.   Pousuwaj plastikowe elementy.\n
+        3.   Wsadź go sobie w dupę!\n
+        4.   Mamy w dupie ekologię, chcemy zarobić hajs.\n
+        5.   Zawsze biorę tysiąc reklamówek w Tesco.
+    </string>
+
 </resources>
