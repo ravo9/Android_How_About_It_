@@ -17,7 +17,7 @@
     <dimen name="detailed_view_image_height">160dp</dimen>
 
     <dimen name="elevation_first_floor">2dp</dimen>
-    <dimen name="elevation_second_floor">4dp</dimen>
+    <dimen name="elevation_second_floor">20dp</dimen>
 
     <dimen name="grid_single_item_height">350dp</dimen>
     <dimen name="grid_single_item_padding">15dp</dimen>

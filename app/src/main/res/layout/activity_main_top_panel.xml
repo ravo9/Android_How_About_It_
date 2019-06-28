@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<com.google.android.material.appbar.CollapsingToolbarLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
+        android:layout_height="match_parent"
         android:background="@color/colorBackground"
         android:nestedScrollingEnabled="true"
-        android:orientation="vertical">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
     <TextView
             android:layout_width="match_parent"
@@ -21,6 +20,7 @@
 
             android:text="@string/wyszukaj_lub_wybierz_rodzaj_odpadu"/>
 
+    <!-- This margin top should not be fixed probably. -->
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,16 +29,21 @@
 
             android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
             android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="25dp">
+            android:layout_marginTop="170dp"
+            android:layout_marginBottom="25dp"
+
+            app:layout_collapseMode="pin"
+            app:layout_collapseParallaxMultiplier="0.5">
 
         <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/image_search_non_commercial"/>
+                android:src="@drawable/image_search_non_commercial"
+
+                app:layout_collapseMode="pin"/>
 
     </RelativeLayout>
 
-</LinearLayout>
+</com.google.android.material.appbar.CollapsingToolbarLayout>
