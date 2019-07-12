@@ -11,7 +11,6 @@ import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.R
 import kotlinx.android.synthetic.main.grid_single_item.view.*
 
-
 // Main adapter used for managing items grid within the main Feed View
 class ItemsGridAdapter (private val context: Context, val clickListener: (String) -> Unit) : BaseAdapter() {
 
@@ -49,7 +48,7 @@ class ItemsGridAdapter (private val context: Context, val clickListener: (String
         itemView.name.text = name
 
         // Load thumbnail
-        val imageUrl = item.image
+        val imageUrl = item.imageLink
         val thumbnail = itemView.thumbnail
         try { Glide.with(context).load(imageUrl).into(thumbnail); }
         catch (e: Exception) {

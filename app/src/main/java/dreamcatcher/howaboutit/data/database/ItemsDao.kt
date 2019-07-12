@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-/*@Dao
+@Dao
 interface ItemsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -20,4 +20,4 @@ interface ItemsDao {
 
     @Query("DELETE FROM items")
     fun clearDatabase()
-}*/
+}

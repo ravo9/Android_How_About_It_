@@ -3,12 +3,10 @@ package dreamcatcher.howaboutit.data.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-//@Entity(tableName = "items")
+@Entity(tableName = "items")
 data class ItemEntity(
+        @PrimaryKey val id: Int,
         val name: String,
-        val image: String?) {
-
-        //@PrimaryKey(autoGenerate = true)
-        //var id: Int? = null
-}
-
+        val tags: List<String>,
+        val recyclingSteps: List<String>,
+        val imageLink: String)

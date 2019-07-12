@@ -18,7 +18,7 @@
             android:layout_marginTop="60dp"
             android:layout_marginBottom="15dp"
 
-            android:text="@string/wyszukaj_lub_wybierz_rodzaj_odpadu"/>
+            android:text="@string/find_or_choose_the_kind"/>
 
     <!-- This margin top should not be fixed probably. -->
     <RelativeLayout

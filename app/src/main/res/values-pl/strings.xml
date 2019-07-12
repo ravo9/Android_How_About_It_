@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wyrzuć To</string>
+    <string name="connection_problem">Problem z połączeniem</string>
+    <string name="there_is_a_problem_connecting" translatable="false">Wystąpił problem podczas połączenia z serwerem.
+        Naciśnik OK aby spróbować ponownie. (Błąd 1599)
+    </string>
+    <string name="find_or_choose_the_kind">Wyszukaj lub wybierz rodzaj odpadu z listy poniżej, aby dowiedzieć
+        się jak go prawidłowo zutylizować
+    </string>
+</resources>

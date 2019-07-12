@@ -2,10 +2,16 @@
 
     <string name="app_name">How About It</string>
 
-    <string name="wyszukaj_lub_wybierz_rodzaj_odpadu">Wyszukaj lub wybierz rodzaj odpadu\nz listy poniżej, aby dowiedzieć się jak go prawidłowo zutylizować</string>
+    <string name="find_or_choose_the_kind">Find or choose the kind of waste from the list, to check
+        how to recycle it properly.
+    </string>
 
+    <string name="connection_problem">Connection problem</string>
+    <string name="there_is_a_problem_connecting">There is a problem connecting to our servers. Press OK to try again. (Error 1599)</string>
 
-    <string name="fake_text">
+    <string name="ok" translatable="false">OK</string>
+
+    <string name="fake_text" translatable="false">
         1.   Zgnieć karton aby pozbyć się resztek mleka.\n
         2.   Pousuwaj plastikowe elementy.\n
         3.   Wsadź go sobie w dupę!\n

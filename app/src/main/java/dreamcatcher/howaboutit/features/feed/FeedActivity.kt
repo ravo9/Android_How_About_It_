@@ -1,14 +1,14 @@
 package dreamcatcher.howaboutit.features.feed
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
@@ -27,11 +27,11 @@ class FeedActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Fetch items (products) from the file and load them into the view
-        uploadFakeItems()
-        //subscribeForItems()
+        //uploadFakeItems()
+        subscribeForItems()
 
         // Catch and handle potential network issues
-        //subscribeForNetworkError()
+        subscribeForNetworkError()
     }
 
     /*private fun setupSideDrawer() {
@@ -57,20 +57,20 @@ class FeedActivity : AppCompatActivity() {
         gridView.adapter = itemsGridAdapter
     }
 
-    private fun uploadFakeItems() {
+    /*private fun uploadFakeItems() {
 
         val fakeList = LinkedList<ItemEntity>()
 
         val name = "Karton"
-        val image = ""
-        val fakeItem = ItemEntity(name, image)
+        val imageLink = ""
+        val fakeItem = ItemEntity(name, imageLink)
 
         for (i in 0..9) {
             fakeList.add(fakeItem)
         }
 
         itemsGridAdapter.setItems(fakeList)
-    }
+    }*/
 
     private fun displayDetailedView(itemId: String) {
 
@@ -85,7 +85,7 @@ class FeedActivity : AppCompatActivity() {
             .commit()
     }
 
-    /*private fun subscribeForItems() {
+    private fun subscribeForItems() {
         viewModel.getAllItems()?.observe(this, Observer<List<ItemEntity>> {
 
             // Display fetched items
@@ -93,26 +93,26 @@ class FeedActivity : AppCompatActivity() {
                 itemsGridAdapter.setItems(it)
             }
         })
-    }*/
+    }
 
-    /*private fun subscribeForNetworkError() {
+    private fun subscribeForNetworkError() {
         viewModel.getNetworkError()?.observe(this, Observer<Boolean> {
 
             // Display the "Connection problem" dialogbox
             displayConnectionProblemDialogbox()
         })
-    }*/
+    }
 
-    /*private fun refreshItemsSubscription() {
+    private fun refreshItemsSubscription() {
 
         // Reset items subscription (if no items have been cached as far)
         if (itemsGridAdapter.count == 0) {
             viewModel.getAllItems()?.removeObservers(this)
             subscribeForItems()
         }
-    }*/
+    }
 
-    /*private fun displayConnectionProblemDialogbox() {
+    private fun displayConnectionProblemDialogbox() {
         val builder = AlertDialog.Builder(this)
 
         builder.setMessage(R.string.there_is_a_problem_connecting)
@@ -124,5 +124,5 @@ class FeedActivity : AppCompatActivity() {
 
         val dialog = builder.create()
         dialog.show()
-    }*/
+    }
 }

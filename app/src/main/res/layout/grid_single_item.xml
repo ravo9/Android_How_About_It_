@@ -17,8 +17,7 @@
            android:layout_marginBottom="@dimen/grid_single_item_thumbnail_margin_bottom"
            android:scaleType="fitXY"
            tools:ignore="MissingConstraints"
-
-           android:background="@drawable/image_placeholder"/>
+           android:background="@drawable/background_badge"/>
 
     <TextView
             android:id="@+id/name"
