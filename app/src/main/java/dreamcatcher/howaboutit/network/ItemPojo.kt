@@ -6,17 +6,17 @@ import java.util.*
 // ApiResponse object and its sub-objects used for de-serializing data coming from API endpoint
 data class ItemPojo(
 
-    @SerializedName("id")
+    @SerializedName("ID")
     val id: String,
 
-    @SerializedName("name")
+    @SerializedName("Name")
     val name: String,
 
-    @SerializedName("tags")
+    @SerializedName("Tags")
     val tags: List<String>,
 
-    @SerializedName("recycling steps")
+    @SerializedName("Recycling Steps")
     val recyclingSteps: List<String>,
 
-    @SerializedName("imageLink link")
+    @SerializedName("Image Link")
     val imageLink: String)

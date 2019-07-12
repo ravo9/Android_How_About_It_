@@ -35,7 +35,7 @@ class ItemsDatabaseInteractor() {
 
         item.let {
             val itemEntity = ItemEntity(
-                id = Integer.valueOf(it.id),
+                id = it.id,
                 name = it.name,
                 tags = it.tags,
                 recyclingSteps = it.recyclingSteps,
