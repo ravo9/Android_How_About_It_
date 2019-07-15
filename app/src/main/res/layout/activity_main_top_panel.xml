@@ -21,7 +21,7 @@
             android:text="@string/find_or_choose_the_kind"/>
 
     <!-- This margin top should not be fixed probably. -->
-    <RelativeLayout
+    <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_badge"
@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
             android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
             android:layout_marginTop="170dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="5dp"
 
             app:layout_collapseMode="pin"
             app:layout_collapseParallaxMultiplier="0.5">
@@ -43,6 +43,38 @@
                 android:src="@drawable/image_search_non_commercial"
 
                 app:layout_collapseMode="pin"/>
+
+    </RelativeLayout>-->
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/background_badge"
+            android:elevation="@dimen/elevation_first_floor"
+
+            app:layout_collapseMode="pin"
+            app:layout_collapseParallaxMultiplier="0.5"
+
+            android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
+            android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
+            android:layout_marginTop="170dp"
+            android:layout_marginBottom="5dp">
+
+        <EditText
+                android:id="@+id/search_engine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="42dp"
+                android:background="@drawable/background_badge"
+                android:textAlignment="viewStart"
+                android:lines="1"/>
+
+        <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/image_search_non_commercial"/>
 
     </RelativeLayout>
 

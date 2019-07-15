@@ -19,4 +19,7 @@
         5.   Zawsze biorę tysiąc reklamówek w Tesco.
     </string>
 
+    <string name="picture_unavailable">Picture unavailable</string>
+    <string name="loading_the_item">Loading the item...</string>
+
 </resources>

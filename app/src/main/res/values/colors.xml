@@ -9,6 +9,6 @@
     <color name="colorBackgroundAlternative">#000</color>
 
     <color name="colorText">#000</color>
-    <color name="colorTextAlternative"></color>
+    <color name="colorTextAlternative">#525252</color>
 
 </resources>

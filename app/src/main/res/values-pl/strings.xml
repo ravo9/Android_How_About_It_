@@ -8,4 +8,6 @@
     <string name="find_or_choose_the_kind">Wyszukaj lub wybierz rodzaj odpadu z listy poniżej, aby dowiedzieć
         się jak go prawidłowo zutylizować
     </string>
+    <string name="picture_unavailable">Brak zdjęcia</string>
+    <string name="loading_the_item">Wczytywanie wybranego elementu...</string>
 </resources>

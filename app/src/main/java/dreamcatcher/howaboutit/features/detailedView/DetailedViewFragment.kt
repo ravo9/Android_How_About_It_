@@ -1,14 +1,18 @@
 package dreamcatcher.howaboutit.features.detailedView
 
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import dreamcatcher.howaboutit.R
+import dreamcatcher.howaboutit.data.database.ItemEntity
 import kotlinx.android.synthetic.main.detailed_item_view.*
-
 
 // Detailed view for displaying chosen item
 class DetailedViewFragment : Fragment() {
@@ -28,7 +32,7 @@ class DetailedViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Fetch detailed data from Data Repository
-        //subscribeForArticle()
+        subscribeForItem()
 
         // Setup Cross Button
         btn_cross.setOnClickListener{
@@ -36,20 +40,39 @@ class DetailedViewFragment : Fragment() {
         }
     }
 
-    /*private fun subscribeForArticle() {
-        val articleId = this.arguments?.getString("articleId")
-        if (!articleId.isNullOrEmpty()) {
-            viewModel.getSingleSavedArticleById(articleId)?.observe(this, Observer<ArticleEntity> {
-                setupWebView(it.contentUrl)
+    private fun subscribeForItem() {
+        val itemId = this.arguments?.getString("itemId")
+        if (!itemId.isNullOrEmpty()) {
+            viewModel.getSingleSavedItemById(itemId)?.observe(this, Observer<ItemEntity> {
+                setupDetailedView(it)
             })
         }
-    }*/
+    }
 
-    // Setup website view
-    /*private fun setupWebView(url: String) {
-        website_view.settings.javaScriptEnabled = true
-        website_view.webViewClient = WebViewClient()
-        website_view.loadUrl(url)
+    // Prepare view to display fetched item
+    private fun setupDetailedView(item: ItemEntity) {
+
+        // Set item's name
+        detailed_item_view_name.text = item.name
+
+        // Set recycling steps to display
+        var recyclingStepsText = ""
+        item.recyclingSteps.forEach {
+            recyclingStepsText += "&#8226"
+            recyclingStepsText += " "
+            recyclingStepsText += it
+            recyclingStepsText += "\n"
+        }
+        detailed_item_view_recycling_steps.text = Html.fromHtml(recyclingStepsText)
+
+        // Load thumbnail
+        val imageUrl = item.imageLink
+        try { Glide.with(context!!).load(imageUrl).into(thumbnail); }
+        catch (e: Exception) {
+            picture_placeholder_text.visibility = View.VISIBLE
+            Log.e("Exception", e.message);
+        }
+
         showLoadingView(false)
     }
 
@@ -59,5 +82,5 @@ class DetailedViewFragment : Fragment() {
         } else {
             progressBar.visibility = View.GONE
         }
-    }*/
+    }
 }

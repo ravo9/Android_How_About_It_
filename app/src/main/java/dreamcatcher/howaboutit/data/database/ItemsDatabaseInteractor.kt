@@ -19,17 +19,7 @@ class ItemsDatabaseInteractor() {
         }
     }
 
-    // Temporary solution using hard-coded JSON database.
-    /*fun getAllItems(): LiveData<List<ItemEntity>>? {
-        val liveDataItemsList = MutableLiveData<List<ItemEntity>>()
-        Gson().fromJson(HardCodedDatabase.hardCodedDatabase, JsonParserResult::class.java)
-            .also {
-                liveDataItemsList.value = it.itemsList
-            }
-        return liveDataItemsList
-    }*/
-
-    fun addNewItem(item: ItemPojo): LiveData<Boolean> {
+    /*fun addNewItem(item: ItemPojo): LiveData<Boolean> {
 
         val itemSavingStatus = MutableLiveData<Boolean>()
 
@@ -46,7 +36,7 @@ class ItemsDatabaseInteractor() {
         }
         itemSavingStatus.postValue(true)
         return itemSavingStatus
-    }
+    }*/
 
     fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
         return itemsDatabase?.getItemsDao()?.getSingleSavedItemById(id)
@@ -56,10 +46,32 @@ class ItemsDatabaseInteractor() {
         return itemsDatabase?.getItemsDao()?.getAllSavedItems()
     }
 
-    fun clearDatabase() {
+    /*fun clearDatabase() {
+        itemsDatabase?.getItemsDao()?.clearDatabase()
+    }*/
+
+    // This function should be checked again.
+    fun addItemsSet(itemsSet: List<ItemPojo>): LiveData<Boolean> {
+
+        val itemSavingStatus = MutableLiveData<Boolean>()
+
         launch {
             itemsDatabase?.getItemsDao()?.clearDatabase()
+
+            itemsSet.forEach {
+                val itemEntity = ItemEntity(
+                    id = it.id,
+                    name = it.name,
+                    tags = it.tags,
+                    recyclingSteps = it.recyclingSteps,
+                    imageLink = it.imageLink)
+                launch {
+                    itemsDatabase?.getItemsDao()?.insertNewItem(itemEntity)
+                }
+            }
         }
+        itemSavingStatus.postValue(true)
+        return itemSavingStatus
     }
 }
 

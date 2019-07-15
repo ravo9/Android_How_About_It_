@@ -42,14 +42,12 @@
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_main_content_panel_margin_side"
-                android:layout_marginEnd="@dimen/activity_main_content_panel_margin_side"
+                android:padding="@dimen/activity_main_content_panel_padding"
+                android:clipToPadding="false"
                 android:gravity="center"
                 android:numColumns="2"
                 android:nestedScrollingEnabled="true"
                 android:fastScrollEnabled="true"
-                android:columnWidth="80dp"
-                android:stretchMode="columnWidth"
                 android:verticalSpacing="24dp"
                 android:horizontalSpacing="10dp"/>
 

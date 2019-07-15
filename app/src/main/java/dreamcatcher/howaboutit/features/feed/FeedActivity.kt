@@ -1,20 +1,26 @@
 package dreamcatcher.howaboutit.features.feed
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_top_panel.*
+import java.util.*
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FeedViewModel
     private lateinit var itemsGridAdapter: ItemsGridAdapter
+    private val allItemsList = LinkedList<ItemEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,57 +33,50 @@ class FeedActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Fetch items (products) from the file and load them into the view
-        //uploadFakeItems()
         subscribeForItems()
 
         // Catch and handle potential network issues
         subscribeForNetworkError()
+
+        // Initialize search engine
+        search_engine.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterResultsToDisplay(p0.toString())
+            }
+        })
     }
 
-    /*private fun setupSideDrawer() {
+    private fun filterResultsToDisplay(phrase: String) {
 
-        // Initialize Side Drawer layout
-        val drawerListener = ActionBarDrawerToggle(this, main_layout_container, R.string.sort, R.string.filter)
-        main_layout_container.addDrawerListener(drawerListener)
-        drawerListener.syncState()
+        val itemsToDisplay = LinkedList<ItemEntity>()
 
-        // Set Filter button onClick listener
-        textView_filter.setOnClickListener{
-            main_layout_container.openDrawer(GravityCompat.END)
+        // Check if the name of each element contains searched phrase. If not - remove this element.
+        allItemsList.forEach {
+            if (it.name.toLowerCase().contains(phrase.toLowerCase())) {
+                itemsToDisplay.add(it)
+            }
         }
 
-        // Set (Side Drawer's) Close button onClick listener
-        close_btn.setOnClickListener{
-            main_layout_container.closeDrawer(GravityCompat.END)
-        }
-    }*/
+        // Send a new list to adapter to display them.
+        itemsGridAdapter.setItems(itemsToDisplay)
+    }
 
     private fun setupRecyclerView() {
         itemsGridAdapter = ItemsGridAdapter(this){ itemId: String -> displayDetailedView(itemId) }
         gridView.adapter = itemsGridAdapter
     }
 
-    /*private fun uploadFakeItems() {
-
-        val fakeList = LinkedList<ItemEntity>()
-
-        val name = "Karton"
-        val imageLink = ""
-        val fakeItem = ItemEntity(name, imageLink)
-
-        for (i in 0..9) {
-            fakeList.add(fakeItem)
-        }
-
-        itemsGridAdapter.setItems(fakeList)
-    }*/
-
     private fun displayDetailedView(itemId: String) {
 
         val fragment = DetailedViewFragment()
-        //val bundle = Bundle()
-        //bundle.putString("articleId", articleId)
-        //fragment.arguments = bundle
+        val bundle = Bundle()
+        bundle.putString("itemId", itemId)
+        fragment.arguments = bundle
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.main_content_container, fragment)
@@ -90,7 +89,8 @@ class FeedActivity : AppCompatActivity() {
 
             // Display fetched items
             if (!it.isNullOrEmpty()) {
-                itemsGridAdapter.setItems(it)
+                allItemsList.addAll(it)
+                itemsGridAdapter.setItems(allItemsList)
             }
         })
     }

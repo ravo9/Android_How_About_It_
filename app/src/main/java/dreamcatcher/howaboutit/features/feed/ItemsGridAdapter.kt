@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.bumptech.glide.Glide
-import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.R
+import dreamcatcher.howaboutit.data.database.ItemEntity
 import kotlinx.android.synthetic.main.grid_single_item.view.*
+import java.util.*
 
 // Main adapter used for managing items grid within the main Feed View
 class ItemsGridAdapter (private val context: Context, val clickListener: (String) -> Unit) : BaseAdapter() {
 
-    private var itemsList: List<ItemEntity> = ArrayList()
+    private var itemsList: List<ItemEntity> = LinkedList()
 
     fun setItems(items: List<ItemEntity>) {
+
         this.itemsList = items
         notifyDataSetChanged()
     }
@@ -32,6 +34,10 @@ class ItemsGridAdapter (private val context: Context, val clickListener: (String
     override fun getItemId(position: Int): Long {
         //return itemsList[position].id!!.toLong()
         return 0
+    }
+
+    private fun clearAll() {
+        (itemsList as LinkedList).clear()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -57,9 +63,8 @@ class ItemsGridAdapter (private val context: Context, val clickListener: (String
 
         // Set onClickListener
         itemView.setOnClickListener{
-            //val articleId = this.itemsList[position].id
-            val fakeId = "0001"
-            clickListener(fakeId)
+            val itemId = this.itemsList[position].id
+            clickListener(itemId)
         }
 
         return itemView

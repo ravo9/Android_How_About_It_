@@ -6,6 +6,7 @@ import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.data.database.ItemsDatabaseInteractor
 import dreamcatcher.howaboutit.network.ItemPojo
 import dreamcatcher.howaboutit.network.ItemsNetworkInteractor
+import kotlinx.coroutines.runBlocking
 
 // Data Repository - the main gate of the model (data) part of the application
 class ItemsRepository () {
@@ -31,13 +32,22 @@ class ItemsRepository () {
         networkInteractor.getAllItems().subscribe {
             if (it.isSuccess && it.getOrDefault(null)?.size!! > 0) {
 
+                val itemsSet = it.getOrNull()
+
+                // Clear database not to store outdated data, and save freshly fetched items
+                if (itemsSet != null) {
+                    databaseInteractor.addItemsSet(itemsSet)
+                }
+
                 // Clear database not to store outdated data
-                databaseInteractor.clearDatabase()
+                /*runBlocking {
+                    databaseInteractor.clearDatabase()
+                }
 
                 // Save freshly fetched items
                 it.getOrNull()?.forEach {
                     databaseInteractor.addNewItem(it)
-                }
+                }*/
             }
         }
     }
