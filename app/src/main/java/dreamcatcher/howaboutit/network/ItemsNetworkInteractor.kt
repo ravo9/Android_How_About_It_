@@ -12,6 +12,7 @@ class ItemsNetworkInteractor {
 
     private val apiClient = NetworkAdapter.apiClient()
     val networkError: MutableLiveData<Boolean> = MutableLiveData()
+    val connectionEstablishedStatus: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getAllItems(): Observable<Result<List<ItemPojo>>> {
         val allItemsSubject = SingleSubject.create<Result<List<ItemPojo>>>()
@@ -23,6 +24,7 @@ class ItemsNetworkInteractor {
                 {
                     if (it != null) {
                         allItemsSubject.onSuccess(Result.success(it!!))
+                        connectionEstablishedStatus.postValue(true)
                     } else {
                         Log.e("getItems() error: ", "NULL value")
                     }

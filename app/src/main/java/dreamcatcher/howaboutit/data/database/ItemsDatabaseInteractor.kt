@@ -56,21 +56,22 @@ class ItemsDatabaseInteractor() {
         val itemSavingStatus = MutableLiveData<Boolean>()
 
         launch {
-            itemsDatabase?.getItemsDao()?.clearDatabase()
-
-            itemsSet.forEach {
-                val itemEntity = ItemEntity(
-                    id = it.id,
-                    name = it.name,
-                    tags = it.tags,
-                    recyclingSteps = it.recyclingSteps,
-                    imageLink = it.imageLink)
-                launch {
-                    itemsDatabase?.getItemsDao()?.insertNewItem(itemEntity)
+            itemsDatabase?.getItemsDao()?.clearDatabase().also {
+                itemsSet.forEach {
+                    val itemEntity = ItemEntity(
+                        id = it.id,
+                        name = it.name,
+                        tags = it.tags,
+                        recyclingSteps = it.recyclingSteps,
+                        imageLink = it.imageLink)
+                    launch {
+                        itemsDatabase?.getItemsDao()?.insertNewItem(itemEntity)
+                    }
                 }
+            }.also {
+                itemSavingStatus.postValue(true)
             }
         }
-        itemSavingStatus.postValue(true)
         return itemSavingStatus
     }
 }

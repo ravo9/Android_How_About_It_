@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/app_info_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="@dimen/elevation_second_floor">
+
+    <RelativeLayout
+            android:id="@+id/spacing_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".08"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/colorBackgroundAlternative"
+            android:alpha="0.7"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_badge"
+            app:layout_constraintTop_toBottomOf="@id/spacing_top"
+            app:layout_constraintBottom_toTopOf="@id/spacing_bottom">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:id="@+id/thumbnail_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/detailed_view_image_length"
+                        android:layout_marginTop="70dp">
+
+                    <TextView
+                            android:id="@+id/picture_placeholder_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/picture_unavailable"
+                            android:textSize="16sp"
+                            android:letterSpacing="0.03"
+                            android:textColor="@color/colorTextAlternative"
+                            android:visibility="invisible"/>
+
+                    <ImageView
+                            android:id="@+id/thumbnail"
+                            android:layout_width="@dimen/detailed_view_image_length"
+                            android:layout_height="@dimen/detailed_view_image_length"
+                            android:layout_marginBottom="@dimen/grid_single_item_padding"
+                            android:scaleType="centerCrop"
+                            android:layout_centerInParent="true"/>
+
+                </RelativeLayout>
+
+                <TextView
+                        android:id="@+id/detailed_item_view_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/loading_the_item"
+                        android:textSize="18sp"/>
+
+                <TextView
+                        android:id="@+id/detailed_item_view_recycling_steps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="30dp"
+                        android:text="@string/fake_text"
+                        android:textAlignment="viewStart"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ImageButton
+                android:id="@+id/btn_cross"
+                android:layout_width="@dimen/detailed_view_cross_button_length"
+                android:layout_height="@dimen/detailed_view_cross_button_length"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="@dimen/detailed_view_cross_button_margin"
+                android:src="@drawable/image_cross_non_commercial"
+                android:scaleType="centerCrop"
+                android:background="@null"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+            android:id="@+id/spacing_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".08"
+            android:background="@color/colorBackgroundAlternative"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:alpha="0.7"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

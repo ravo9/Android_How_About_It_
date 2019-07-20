@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- Main content container -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:backgroundTint="#6efaa8"
+        android:id="@+id/main_content_container"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@color/colorBackground"
-        android:nestedScrollingEnabled="true"
-        android:id="@+id/main_content_container">
+        android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/top_interface_bar_container">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-            <include
-                    layout="@layout/activity_main_top_panel"
-                    app:layout_collapseMode="pin"/>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:background="#ffda75"
             android:fillViewport="true"
-            android:clipToPadding="false"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            android:clipToPadding="false">
+        <!-- background=  -->
 
-        <GridView
-                android:id="@+id/gridView"
+        <LinearLayout
+                android:background="#00faaa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_main_content_panel_padding"
-                android:clipToPadding="false"
-                android:gravity="center"
-                android:numColumns="2"
-                android:nestedScrollingEnabled="true"
-                android:fastScrollEnabled="true"
-                android:verticalSpacing="24dp"
-                android:horizontalSpacing="10dp"/>
+                android:orientation="vertical">
 
-    </androidx.core.widget.NestedScrollView>
+            <include
+                    android:id="@+id/top_interface_bar_container"
+                    layout="@layout/activity_main_top_panel"
+                    android:visibility="gone"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="true"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <GridView
+                        android:id="@+id/gridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_main_content_panel_padding"
+                        android:clipToPadding="false"
+                        android:gravity="center"
+                        android:numColumns="2"
+                        android:nestedScrollingEnabled="true"
+                        android:verticalSpacing="24dp"
+                        android:horizontalSpacing="10dp"/>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/loading_badge"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

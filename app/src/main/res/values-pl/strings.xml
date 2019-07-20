@@ -10,4 +10,6 @@
     </string>
     <string name="picture_unavailable">Brak zdjęcia</string>
     <string name="loading_the_item">Wczytywanie wybranego elementu...</string>
+    <string name="try_again">Spróbuj ponownie</string>
+    <string name="loading">Uruchamianie aplikacji...</string>
 </resources>

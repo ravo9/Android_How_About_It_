@@ -14,6 +14,10 @@ class FeedViewModel : ViewModel() {
         return itemsRepository.getAllItems()
     }
 
+    fun getConnectionEstablishedStatus(): LiveData<Boolean>? {
+        return itemsRepository.getConnectionEstablishedStatus()
+    }
+
     fun getNetworkError(): LiveData<Boolean>? {
         return itemsRepository.getNetworkError()
     }
