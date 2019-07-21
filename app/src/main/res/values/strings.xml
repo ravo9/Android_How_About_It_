@@ -1,13 +1,23 @@
 <resources>
 
-    <string name="app_name">How About It</string>
+    <string name="app_name">Bin Assistant</string>
+
+    <string name="app_email" translatable="false">appEmail@email.com</string>
 
     <string name="find_or_choose_the_kind">Find or choose the kind of waste from the list, to check
         how to recycle it properly.
     </string>
 
     <string name="connection_problem">Connection problem</string>
-    <string name="there_is_a_problem_connecting">There is a problem connecting to our servers. Press OK to try again. (Error 1599)</string>
+    <string name="please_check_your_internet_connection">Please check your Internet connection</string>
+
+    <string name="thank_you_for_downloading_bin">Thank you for downloading Bin Assistant!</string>
+
+    <string name="we_hope_that_our_work">We hope that our work helps promoting ecological life-style.</string>
+
+    <string name="we_will_be_very_grateful">We will be very grateful if you would like to leave us a feedback.</string>
+
+    <string name="if_you_can_see_anything">If you can see anything we could improve, please do not hesitate to contact us:</string>
 
     <string name="ok" translatable="false">OK</string>
 
@@ -21,7 +31,8 @@
 
     <string name="picture_unavailable">Picture unavailable</string>
     <string name="loading_the_item">Loading the item...</string>
-    <string name="try_again">Try again</string>
     <string name="loading">Loading...</string>
+
+    <string name="footer">Bin Assistant ® 2019</string>
 
 </resources>

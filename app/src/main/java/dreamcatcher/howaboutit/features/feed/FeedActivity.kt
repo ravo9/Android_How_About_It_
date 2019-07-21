@@ -1,10 +1,15 @@
 package dreamcatcher.howaboutit.features.feed
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AlertDialog
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
 import java.util.*
+
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
@@ -29,9 +35,14 @@ class FeedActivity : AppCompatActivity() {
     private var connectionEstablishedFlag = false
     private var dataLoadingFinishedFlag = false
 
+    private var toastMessage: Toast? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_collapsing_toolbar)
+
+        // Setup progress bar animation
+        animateProgressBar()
 
         // Initialize ViewModel
         viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
@@ -53,11 +64,6 @@ class FeedActivity : AppCompatActivity() {
 
         // Initialize app info button
         initializeAppInfoButton()
-
-        // Setup (hidden) "Retry connection" button
-        tryagain_button.setOnClickListener {
-            retryConnection()
-        }
     }
 
     private fun filterResultsToDisplay(phrase: String) {
@@ -139,22 +145,40 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun subscribeForConnectionStatus() {
-        viewModel.getConnectionEstablishedStatus()?.observe(this, Observer<Boolean> {
 
-            // Hide the loading view
-            connectionEstablishedFlag = true
-            if (dataLoadingFinishedFlag) {
-                showLoadingView(false)
-            }
-        })
+        // The delay is implemented to keep the loading screen visible to the user (for few seconds).
+        Handler().postDelayed({
+
+            viewModel.getConnectionEstablishedStatus()?.observe(this, Observer<Boolean> {
+
+                // Hide the loading view
+                connectionEstablishedFlag = true
+                if (dataLoadingFinishedFlag) {
+                    showLoadingView(false)
+                }
+            })
+        }, 1000)
     }
 
     private fun subscribeForNetworkError() {
         viewModel.getNetworkError()?.observe(this, Observer<Boolean> {
-
-            // Display the "Retry connection" button
-            tryagain_button.visibility = View.VISIBLE
+            Handler().postDelayed({
+                displayNetworkProblemMessage()
+                retryConnection()
+            }, 4000)
         })
+    }
+
+    private fun displayNetworkProblemMessage() {
+        val isMessageCurrentlyDisplaying = toastMessage?.view?.isShown
+
+        if (isMessageCurrentlyDisplaying != true) {
+            if (toastMessage != null) {
+                toastMessage?.cancel()
+            }
+            toastMessage = Toast.makeText(this, R.string.please_check_your_internet_connection, Toast.LENGTH_LONG)
+            toastMessage?.show()
+        }
     }
 
     private fun retryConnection() {
@@ -165,10 +189,21 @@ class FeedActivity : AppCompatActivity() {
     private fun showLoadingView(loadingState: Boolean) {
         if (loadingState) {
             loading_container.visibility = View.VISIBLE
-            top_interface_bar_container.visibility = View.GONE
         } else {
-            loading_container.visibility = View.GONE
-            top_interface_bar_container.visibility = View.VISIBLE
+
+            val fadeOutAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_out_animation)
+            fadeOutAnimation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(arg0: Animation) {}
+                override fun onAnimationRepeat(arg0: Animation) {}
+                override fun onAnimationEnd(arg0: Animation) {
+                    loading_container.visibility = View.GONE
+                }
+            })
+
+            loading_container.startAnimation(fadeOutAnimation)
+
+            //loading_container.animate().alpha(0f).setDuration(2000).start()
+            //loading_container.visibility = View.GONE
         }
     }
 
@@ -180,5 +215,13 @@ class FeedActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+    }
+
+    private fun animateProgressBar() {
+        val rotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+        rotateAnimation.duration = 800
+        rotateAnimation.interpolator = LinearInterpolator()
+        rotateAnimation.repeatCount = Animation.INFINITE
+        progressBar.startAnimation(rotateAnimation)
     }
 }

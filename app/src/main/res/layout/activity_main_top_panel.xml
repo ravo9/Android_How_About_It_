@@ -6,7 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+    <!-- We need these last two properties to prevent an initial keyboard opening. -->
 
     <ImageButton
             android:id="@+id/app_info_button"
