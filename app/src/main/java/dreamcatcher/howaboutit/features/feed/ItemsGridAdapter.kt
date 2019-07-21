@@ -36,10 +36,6 @@ class ItemsGridAdapter (private val context: Context, val clickListener: (String
         return 0
     }
 
-    private fun clearAll() {
-        (itemsList as LinkedList).clear()
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         // Inflate the view

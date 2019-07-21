@@ -8,7 +8,7 @@
     <color name="colorBackground">#FFF</color>
     <color name="colorBackgroundAlternative">#000</color>
 
-    <color name="colorText">#000</color>
+    <color name="colorText">#303030</color>
     <color name="colorTextAlternative">#525252</color>
 
     <color name="colorTextBright">#7B7B7B</color>

@@ -41,8 +41,8 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="80dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="90dp"
+                        android:layout_marginBottom="20dp"
                         android:text="@string/thank_you_for_downloading_bin"/>
 
                 <ImageView
@@ -56,29 +56,29 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
                         android:text="@string/we_hope_that_our_work"/>
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/we_will_be_very_grateful"/>
 
-                <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/logo"
+                        android:layout_marginBottom="20dp"
                         android:layout_gravity="center_horizontal"/>
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/if_you_can_see_anything"/>
 
@@ -90,9 +90,10 @@
                         android:text="@string/app_email"/>
 
                 <TextView
+                        style="@style/footer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/footer"/>
 

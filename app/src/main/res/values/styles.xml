@@ -21,4 +21,9 @@
 
     </style>
 
+    <style name="footer">
+        <item name="android:textSize">@dimen/footer_text_size</item>
+        <item name="android:textColor">@color/colorTextVeryBright</item>
+    </style>
+
 </resources>

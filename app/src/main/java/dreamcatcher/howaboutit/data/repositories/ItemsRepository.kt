@@ -9,31 +9,12 @@ import dreamcatcher.howaboutit.network.ItemsNetworkInteractor
 // Data Repository - the main gate of the model (data) part of the application
 class ItemsRepository () {
 
-    val databaseInteractor = ItemsDatabaseInteractor()
-    val networkInteractor = ItemsNetworkInteractor()
+    private val databaseInteractor = ItemsDatabaseInteractor()
+    private val networkInteractor = ItemsNetworkInteractor()
 
     fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
         return databaseInteractor.getSingleSavedItemById(id)
     }
-
-    /*fun getAllItems(): LiveData<List<ItemEntity>>? {
-
-        val returnList = MutableLiveData<List<ItemEntity>>()
-
-        networkInteractor.getAllItems().subscribe {
-            if (it.isSuccess) {
-
-                val itemsSet = it.getOrNull()
-
-                if (itemsSet != null) {
-                    databaseInteractor.addItemsSet(itemsSet)
-                    returnList.postValue(itemsSet)
-                }
-            }
-        }
-
-        return returnList
-    }*/
 
     fun getAllItems(): LiveData<List<ItemEntity>>? {
         updateDataFromBackEnd()

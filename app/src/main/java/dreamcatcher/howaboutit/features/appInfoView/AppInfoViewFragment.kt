@@ -1,12 +1,15 @@
 package dreamcatcher.howaboutit.features.appInfoView
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dreamcatcher.howaboutit.R
-import kotlinx.android.synthetic.main.detailed_item_view.*
+import kotlinx.android.synthetic.main.app_info_view.*
+import kotlinx.android.synthetic.main.detailed_item_view.btn_cross
 
 // A view displaying contact and general app information
 class AppInfoViewFragment : Fragment() {
@@ -23,6 +26,12 @@ class AppInfoViewFragment : Fragment() {
         // Setup Cross Button
         btn_cross.setOnClickListener{
            activity?.onBackPressed()
+        }
+
+        // Setup rating bar (stars) click listener
+        ratingBar.setOnRatingBarChangeListener { _, _, _ ->
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.google_play_address)))
+            startActivity(browserIntent)
         }
     }
 }
