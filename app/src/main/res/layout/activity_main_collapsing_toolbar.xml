@@ -38,17 +38,21 @@
             android:clipToPadding="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <GridView
-                android:id="@+id/gridView"
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/general_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_main_content_panel_padding"
-                android:clipToPadding="false"
-                android:gravity="center"
-                android:numColumns="2"
-                android:nestedScrollingEnabled="true"
-                android:verticalSpacing="24dp"
-                android:horizontalSpacing="10dp"/>
+
+                android:fastScrollEnabled="true"
+
+                android:paddingStart="@dimen/activity_main_content_panel_padding_horizontal"
+                android:paddingEnd="@dimen/activity_main_content_panel_padding_horizontal"
+
+                android:paddingTop="@dimen/activity_main_content_panel_padding_vertical"
+                android:paddingBottom="@dimen/activity_main_content_panel_padding_vertical"
+
+                android:scrollbars="vertical"
+                android:smoothScrollbar="true"/>
 
     </androidx.core.widget.NestedScrollView>
 

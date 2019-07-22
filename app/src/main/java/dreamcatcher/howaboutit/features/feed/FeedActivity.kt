@@ -13,11 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.features.appInfoView.AppInfoViewFragment
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
 import java.util.*
@@ -27,7 +28,7 @@ import java.util.*
 class FeedActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FeedViewModel
-    private lateinit var itemsGridAdapter: ItemsGridAdapter
+    private lateinit var generalListAdapter: GeneralListAdapter
 
     private val allItemsList = LinkedList<ItemEntity>()
     private val itemsToDisplay = LinkedList<ItemEntity>()
@@ -78,7 +79,7 @@ class FeedActivity : AppCompatActivity() {
         }
 
         // Send a new list to adapter to display them.
-        itemsGridAdapter.setItems(itemsToDisplay)
+        generalListAdapter.setItems(itemsToDisplay)
     }
 
     private fun nameContainsSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
@@ -108,8 +109,10 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        itemsGridAdapter = ItemsGridAdapter(this){ itemId: String -> displayDetailedView(itemId) }
-        gridView.adapter = itemsGridAdapter
+        val layoutManager = LinearLayoutManager(this)
+        general_recyclerview.layoutManager = layoutManager
+        generalListAdapter = GeneralListAdapter{ itemId: String -> displayDetailedView(itemId) }
+        general_recyclerview.adapter = generalListAdapter
     }
 
     private fun displayDetailedView(itemId: String) {
@@ -133,7 +136,7 @@ class FeedActivity : AppCompatActivity() {
                 // Display fetched items
                 allItemsList.clear()
                 allItemsList.addAll(it)
-                itemsGridAdapter.setItems(allItemsList)
+                generalListAdapter.setItems(allItemsList)
 
                 // Hide the loading view
                 dataLoadingFinishedFlag = true

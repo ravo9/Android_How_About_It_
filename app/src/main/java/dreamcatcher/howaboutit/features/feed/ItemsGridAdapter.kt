@@ -13,14 +13,14 @@ import kotlinx.android.synthetic.main.grid_single_item.view.*
 import java.util.*
 
 // Main adapter used for managing items grid within the main Feed View
-class ItemsGridAdapter (private val context: Context, val clickListener: (String) -> Unit) : BaseAdapter() {
+class ItemsGridAdapter (val clickListener: (String) -> Unit, list: List<ItemEntity>?, private val context: Context) : BaseAdapter() {
 
-    private var itemsList: List<ItemEntity> = LinkedList()
+    private var itemsList = ArrayList<ItemEntity>()
 
-    fun setItems(items: List<ItemEntity>) {
-
-        this.itemsList = items
-        notifyDataSetChanged()
+    init {
+        if (list != null && list.isNotEmpty()) {
+            itemsList.addAll(list)
+        }
     }
 
     override fun getCount(): Int {
