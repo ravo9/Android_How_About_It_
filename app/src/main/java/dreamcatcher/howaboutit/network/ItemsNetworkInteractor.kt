@@ -36,4 +36,27 @@ class ItemsNetworkInteractor {
 
         return allItemsSubject.toObservable()
     }
+
+    fun getAllProtips(): Observable<Result<List<ProtipPojo>>> {
+        val allProtipsSubject = SingleSubject.create<Result<List<ProtipPojo>>>()
+
+        apiClient.getProtips()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    if (it != null) {
+                        allProtipsSubject.onSuccess(Result.success(it!!))
+                        //connectionEstablishedStatus.postValue(true)
+                    } else {
+                        Log.e("getItems() error: ", "NULL value")
+                    }
+                },
+                {
+                    networkError.postValue(true)
+                    Log.e("getItems() error: ", it.message)
+                })
+
+        return allProtipsSubject.toObservable()
+    }
 }

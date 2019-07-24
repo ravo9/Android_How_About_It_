@@ -2,45 +2,41 @@ package dreamcatcher.howaboutit.data.repositories
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
-import dreamcatcher.howaboutit.data.database.ItemEntity
-import dreamcatcher.howaboutit.data.database.ItemsDatabaseInteractor
+import dreamcatcher.howaboutit.data.database.ProtipEntity
+import dreamcatcher.howaboutit.data.database.ProtipsDatabaseInteractor
 import dreamcatcher.howaboutit.network.ItemsNetworkInteractor
 
 // Data Repository - the main gate of the model (data) part of the application
-class ItemsRepository () {
+class ProtipsRepository () {
 
-    private val databaseInteractor = ItemsDatabaseInteractor()
+    private val databaseInteractor = ProtipsDatabaseInteractor()
     private val networkInteractor = ItemsNetworkInteractor()
 
-    fun getSingleSavedItemById(id: String): LiveData<ItemEntity>? {
-        return databaseInteractor.getSingleSavedItemById(id)
-    }
-
-    fun getAllItems(): LiveData<List<ItemEntity>>? {
+    fun getAllProtips(): LiveData<List<ProtipEntity>>? {
         updateDataFromBackEnd()
-        return databaseInteractor.getAllItems()
+        return databaseInteractor.getAllProtips()
     }
 
-    fun getConnectionEstablishedStatus(): LiveData<Boolean>? {
+    /*fun getConnectionEstablishedStatus(): LiveData<Boolean>? {
         return networkInteractor.connectionEstablishedStatus
     }
 
     fun getNetworkError(): LiveData<Boolean>? {
         return networkInteractor.networkError
-    }
+    }*/
 
     @SuppressLint("CheckResult")
     private fun updateDataFromBackEnd() {
 
-        // Fetch items
-        networkInteractor.getAllItems().subscribe {
+        // Fetch protips
+        networkInteractor.getAllProtips().subscribe {
             if (it.isSuccess && it.getOrDefault(null)?.size!! > 0) {
 
-                val itemsSet = it.getOrNull()
+                val protipsSet = it.getOrNull()
 
                 // Clear database not to store outdated data, and save freshly fetched items
-                if (itemsSet != null) {
-                    databaseInteractor.addItemsSet(itemsSet)
+                if (protipsSet != null) {
+                    databaseInteractor.addProtipsSet(protipsSet)
                 }
             }
         }

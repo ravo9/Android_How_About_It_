@@ -16,13 +16,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.ItemEntity
+import dreamcatcher.howaboutit.data.database.ProtipEntity
 import dreamcatcher.howaboutit.features.appInfoView.AppInfoViewFragment
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
@@ -30,11 +31,16 @@ class FeedActivity : AppCompatActivity() {
     private lateinit var viewModel: FeedViewModel
     private lateinit var generalListAdapter: GeneralListAdapter
 
-    private val allItemsList = LinkedList<ItemEntity>()
-    private val itemsToDisplay = LinkedList<ItemEntity>()
+    private val allItemsList = ArrayList<ItemEntity>()
+    private val itemsToDisplay = ArrayList<ItemEntity>()
+
+    private val allProtipsList = ArrayList<ProtipEntity>()
 
     private var connectionEstablishedFlag = false
     private var dataLoadingFinishedFlag = false
+
+    private var itemsFetchedSuccessfullyFlag = false
+    private var protipsFetchedSuccessfullyFlag = false
 
     private var toastMessage: Toast? = null
 
@@ -57,8 +63,11 @@ class FeedActivity : AppCompatActivity() {
         // Catch and handle potential network issues
         subscribeForNetworkError()
 
-        // Fetch items (products) from the file and load them into the view
+        // Fetch items (products) from the backend and load them into the view
         subscribeForItems()
+
+        // Fetch protips from the backend and load them into the view
+        subscribeForProtips()
 
         // Initialize search engine
         initializeSearchEngine()
@@ -79,7 +88,7 @@ class FeedActivity : AppCompatActivity() {
         }
 
         // Send a new list to adapter to display them.
-        generalListAdapter.setItems(itemsToDisplay)
+        generalListAdapter.updateItems(itemsToDisplay)
     }
 
     private fun nameContainsSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
@@ -133,16 +142,31 @@ class FeedActivity : AppCompatActivity() {
         viewModel.getAllItems()?.observe(this, Observer<List<ItemEntity>> {
             if (!it.isNullOrEmpty()) {
 
-                // Display fetched items
+                // Display fetched items (using adapter)
                 allItemsList.clear()
                 allItemsList.addAll(it)
-                generalListAdapter.setItems(allItemsList)
+                itemsFetchedSuccessfullyFlag = true
+                sendItemsAndProtipsToAdapter()
 
                 // Hide the loading view
                 dataLoadingFinishedFlag = true
                 if (connectionEstablishedFlag) {
                     showLoadingView(false)
                 }
+            }
+        })
+    }
+
+    private fun subscribeForProtips() {
+
+        viewModel.getAllProtips()?.observe(this, Observer<List<ProtipEntity>> {
+            if (!it.isNullOrEmpty()) {
+
+                // Display fetched items (using adapter)
+                allProtipsList.clear()
+                allProtipsList.addAll(it)
+                protipsFetchedSuccessfullyFlag = true
+                sendItemsAndProtipsToAdapter()
             }
         })
     }
@@ -160,7 +184,7 @@ class FeedActivity : AppCompatActivity() {
                     showLoadingView(false)
                 }
             })
-        }, 1000)
+        }, 600)
     }
 
     private fun subscribeForNetworkError() {
@@ -168,8 +192,14 @@ class FeedActivity : AppCompatActivity() {
             Handler().postDelayed({
                 displayNetworkProblemMessage()
                 retryConnection()
-            }, 4000)
+            }, 600)
         })
+    }
+
+    private fun sendItemsAndProtipsToAdapter() {
+        if (itemsFetchedSuccessfullyFlag && protipsFetchedSuccessfullyFlag) {
+            generalListAdapter.setItemsAndProtips(allItemsList, allProtipsList)
+        }
     }
 
     private fun displayNetworkProblemMessage() {

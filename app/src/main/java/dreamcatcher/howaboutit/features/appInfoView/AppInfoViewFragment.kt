@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dreamcatcher.howaboutit.R
 import kotlinx.android.synthetic.main.app_info_view.*
-import kotlinx.android.synthetic.main.detailed_item_view.btn_cross
+import kotlinx.android.synthetic.main.app_info_view.spacing_bottom
+import kotlinx.android.synthetic.main.app_info_view.spacing_top
 
 // A view displaying contact and general app information
 class AppInfoViewFragment : Fragment() {
@@ -24,9 +25,12 @@ class AppInfoViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Setup Cross Button
-        btn_cross.setOnClickListener{
-           activity?.onBackPressed()
-        }
+        val closingOnClickListener = View.OnClickListener{ activity?.onBackPressed() }
+        btn_cross.setOnClickListener(closingOnClickListener)
+
+        // Setup closing on the grey fields' click
+        spacing_top.setOnClickListener(closingOnClickListener)
+        spacing_bottom.setOnClickListener(closingOnClickListener)
 
         // Setup rating bar (stars) click listener
         ratingBar.setOnRatingBarChangeListener { _, _, _ ->

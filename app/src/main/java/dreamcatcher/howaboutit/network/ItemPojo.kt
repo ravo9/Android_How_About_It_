@@ -3,7 +3,7 @@ package dreamcatcher.howaboutit.network
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-// ApiResponse object and its sub-objects used for de-serializing data coming from API endpoint
+// ApiResponse object used for de-serializing data coming from API endpoint
 data class ItemPojo(
 
     @SerializedName("ID")

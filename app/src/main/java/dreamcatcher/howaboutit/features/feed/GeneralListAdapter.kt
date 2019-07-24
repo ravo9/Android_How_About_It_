@@ -9,12 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.ItemEntity
+import dreamcatcher.howaboutit.data.database.ProtipEntity
 import kotlinx.android.synthetic.main.grid_single_item.view.*
-import kotlinx.android.synthetic.main.two_items_row.view.*
+import kotlinx.android.synthetic.main.horizontal_row_view.view.*
+import kotlinx.android.synthetic.main.two_items_row.view.left_item
+import kotlinx.android.synthetic.main.two_items_row.view.right_item
+import kotlinx.android.synthetic.main.two_items_with_protip_row.view.*
 
 class GeneralListAdapter (private val clickListener: (String) -> Unit) : RecyclerView.Adapter<GeneralListAdapter.ViewHolder>() {
 
     private var itemsList: List<List<ItemEntity>> = ArrayList()
+    private var protipsList: List<ProtipEntity> = ArrayList()
+    private var usedProtipsList: List<ProtipEntity> = ArrayList()
     private var context: Context? = null
 
     companion object {
@@ -22,8 +28,14 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         internal val VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW = 1
     }
 
-    fun setItems(articles: List<ItemEntity>) {
-        this.itemsList = convertArticlesListIntoClustersList(articles)
+    fun updateItems(items: List<ItemEntity>) {
+        this.itemsList = convertSingleItemsListIntoClustersList(items)
+        notifyDataSetChanged()
+    }
+
+    fun setItemsAndProtips(items: List<ItemEntity>, protips: List<ProtipEntity>) {
+        this.itemsList = convertSingleItemsListIntoClustersList(items)
+        this.protipsList = protips
         notifyDataSetChanged()
     }
 
@@ -34,7 +46,6 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
     override fun getItemViewType(position: Int): Int {
         // Return 0 or 1 per each position to indicate viewtype.
         return position % 2
-        //return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,15 +56,15 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         when (viewType) {
 
             VIEW_TYPE_TWO_ITEMS_ROW -> {
-                val columnView = inflater
+                val twoItemsRowView = inflater
                     .inflate(R.layout.two_items_row, parent, false)
-                viewHolder = twoItemsRowViewHolder(columnView)
+                viewHolder = TwoItemsRowViewHolder(twoItemsRowView)
             }
 
             VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW -> {
-                val viewPagerView = inflater
+                val twoItemsWithProtipRowView = inflater
                     .inflate(R.layout.two_items_with_protip_row, parent, false)
-                viewHolder = twoItemsRowViewHolder(viewPagerView)
+                viewHolder = TwoItemsWithProtipRowViewHolder(twoItemsWithProtipRowView)
             }
         }
 
@@ -65,48 +76,36 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         when (holder.itemViewType) {
 
             VIEW_TYPE_TWO_ITEMS_ROW -> {
-                val twoItemsRowViewHolder = holder as twoItemsRowViewHolder
+                val twoItemsRowViewHolder = holder as TwoItemsRowViewHolder
                 configureTwoItemsRowView(twoItemsRowViewHolder, position)
             }
 
             VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW -> {
-                val twoItemsRowViewHolder = holder as twoItemsRowViewHolder
-                configureTwoItemsRowView(twoItemsRowViewHolder, position)
+                val twoItemsWithProtipRowViewHolder = holder as TwoItemsWithProtipRowViewHolder
+                configureTwoItemsWithProtipRowView(twoItemsWithProtipRowViewHolder, position)
             }
         }
     }
 
-    private fun configureRowView(holder: RowViewHolder, position: Int) {
-        /*for ((index, article) in holder.articleViews.withIndex()) {
-            try {
-                // Prepare fetched data
-                val title = articlesList[position][index].title
-                val summary = articlesList[position][index].summary
-                val thumbnailUrl = articlesList[position][index].thumbnailUrl
+    private fun configureTwoItemsRowView(holder: TwoItemsRowViewHolder, position: Int) {
 
-                // Set data within the holder
-                article.textView_title.text = title
-                article.textView_summary.text = summary
-
-                // Load thumbnail
-                Picasso.with(context).load(thumbnailUrl).into(article.thumbnail)
-
-                // Set onClickListener
-                article.setOnClickListener{
-                    val articleId = articlesList[position][index].id
-                    clickListener(articleId)
-                }
-
-            } catch (e: Exception) {
-                Log.e("Exception", e.message)
-            }
-        }*/
+        // Set two items views - left and right
+        configureLeftAndRightItemsViews(holder, position)
     }
 
-    private fun configureTwoItemsRowView(holder: twoItemsRowViewHolder, position: Int) {
+    private fun configureTwoItemsWithProtipRowView(holder: TwoItemsWithProtipRowViewHolder, position: Int) {
+
+        // Set two items views - left and right
+        configureLeftAndRightItemsViews(holder, position)
+
+        // Set protip view
+        configureProtipView(holder, position)
+    }
+
+    private fun configureLeftAndRightItemsViews(holder: TwoItemsRowViewHolder, position: Int) {
 
         for (i in 0..1) {
-            
+
             try {
 
                 // Select an item
@@ -130,16 +129,38 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                     val itemId = item.id
                     clickListener(itemId)
                 }
-                
+
             } catch(e: Exception) {
                 Log.e("Exception", e.message);
             }
         }
     }
 
+    private fun configureProtipView(holder: TwoItemsWithProtipRowViewHolder, position: Int) {
+
+        // Get random protip from the original (fetched) list
+        // Move this protip into 'used' list
+        // If all protips from the original list have been used, then use random one from the 'used' list
+
+        val protip: ProtipEntity?
+        val protipText: String?
+
+        if (!protipsList.isEmpty()) {
+            protip =  protipsList.random()
+            protipText = protip.protipText
+            (protipsList as ArrayList).remove(protip)
+            (usedProtipsList  as ArrayList).add(protip)
+        } else {
+            protip =  usedProtipsList.random()
+            protipText = protip.protipText
+        }
+
+        holder.views[2].protip_text.text = protipText
+    }
+
     abstract class ViewHolder (view: View) : RecyclerView.ViewHolder(view)
 
-    inner class twoItemsRowViewHolder (view: View) : ViewHolder(view) {
+    open inner class TwoItemsRowViewHolder (view: View) : ViewHolder(view) {
         val views = ArrayList<View>()
 
         init {
@@ -148,12 +169,15 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         }
     }
 
-    inner class RowViewHolder (view: View) : ViewHolder(view) {
-        //val viewPager = view.viewpager_triplet_container
+    inner class TwoItemsWithProtipRowViewHolder (view: View) : TwoItemsRowViewHolder(view) {
+
+        init {
+            views.add(view.protip_item)
+        }
     }
 
     // Converter grouping items together into 2-items clusters
-    private fun convertArticlesListIntoClustersList(itemsList: List<ItemEntity>)
+    private fun convertSingleItemsListIntoClustersList(itemsList: List<ItemEntity>)
             : List<List<ItemEntity>> {
         val clustersList = ArrayList<List<ItemEntity>>()
         itemsList.chunked(2).forEach {

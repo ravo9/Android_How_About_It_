@@ -35,9 +35,12 @@ class DetailedViewFragment : Fragment() {
         subscribeForItem()
 
         // Setup Cross Button
-        btn_cross.setOnClickListener{
-           activity?.onBackPressed()
-        }
+        val closingOnClickListener = View.OnClickListener{ activity?.onBackPressed() }
+        btn_cross.setOnClickListener(closingOnClickListener)
+
+        // Setup closing on the grey fields' click
+        spacing_top.setOnClickListener(closingOnClickListener)
+        spacing_bottom.setOnClickListener(closingOnClickListener)
     }
 
     private fun subscribeForItem() {
