@@ -12,6 +12,7 @@
     </string>
 
     <string name="connection_problem">Connection problem</string>
+
     <string name="please_check_your_internet_connection">Please check your Internet connection</string>
 
     <string name="thank_you_for_downloading_bin">Thank you for downloading Bin Assistant!</string>
@@ -24,16 +25,8 @@
 
     <string name="ok" translatable="false">OK</string>
 
-    <string name="fake_text" translatable="false">
-        1.   Zgnieć karton aby pozbyć się resztek mleka.\n
-        2.   Pousuwaj plastikowe elementy.\n
-        3.   Wsadź go sobie w dupę!\n
-        4.   Mamy w dupie ekologię, chcemy zarobić hajs.\n
-        5.   Zawsze biorę tysiąc reklamówek w Tesco.
-    </string>
-
     <string name="picture_unavailable">Picture unavailable</string>
-    <string name="loading_the_item">Loading the item...</string>
+
     <string name="loading">Loading...</string>
 
     <string name="footer">Bin Assistant ® 2019</string>

@@ -1,10 +1,11 @@
 package dreamcatcher.howaboutit.data.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import dreamcatcher.howaboutit.general.HowAboutItApp
 import dreamcatcher.howaboutit.network.ProtipPojo
+import io.reactivex.Observable
+import io.reactivex.subjects.SingleSubject
 import kotlinx.coroutines.launch
 
 // Interactor used for communication between data repository and internal database
@@ -19,18 +20,14 @@ class ProtipsDatabaseInteractor() {
         }
     }
 
-    fun getSingleSaveProtipById(id: String): LiveData<ProtipEntity>? {
-        return protipsDatabase?.getProtipsDao()?.getSingleSavedProtipById(id)
-    }
-
     fun getAllProtips(): LiveData<List<ProtipEntity>>? {
         return protipsDatabase?.getProtipsDao()?.getAllSavedProtips()
     }
 
     // This function should be checked again.
-    fun addProtipsSet(protipsSet: List<ProtipPojo>): LiveData<Boolean> {
+    fun addProtipsSet(protipsSet: List<ProtipPojo>): Observable<Result<Boolean>> {
 
-        val protipSavingStatus = MutableLiveData<Boolean>()
+        val dataUpdateFinishedStatus = SingleSubject.create<Result<Boolean>>()
 
         launch {
             protipsDatabase?.getProtipsDao()?.clearDatabase().also {
@@ -42,10 +39,12 @@ class ProtipsDatabaseInteractor() {
                         protipsDatabase?.getProtipsDao()?.insertNewProtip(protipEntity)
                     }
                 }
+
             }.also {
-                protipSavingStatus.postValue(true)
+                dataUpdateFinishedStatus.onSuccess(Result.success(true))
             }
         }
-        return protipSavingStatus
+
+        return dataUpdateFinishedStatus.toObservable()
     }
 }

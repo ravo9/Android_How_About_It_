@@ -1,10 +1,11 @@
 package dreamcatcher.howaboutit.data.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import dreamcatcher.howaboutit.general.HowAboutItApp
 import dreamcatcher.howaboutit.network.ItemPojo
+import io.reactivex.Observable
+import io.reactivex.subjects.SingleSubject
 import kotlinx.coroutines.launch
 
 // Interactor used for communication between data repository and internal database
@@ -28,9 +29,9 @@ class ItemsDatabaseInteractor() {
     }
 
     // This function should be checked again.
-    fun addItemsSet(itemsSet: List<ItemPojo>): LiveData<Boolean> {
+    fun addItemsSet(itemsSet: List<ItemPojo>): Observable<Result<Boolean>> {
 
-        val itemSavingStatus = MutableLiveData<Boolean>()
+        val dataUpdateFinishedStatus = SingleSubject.create<Result<Boolean>>()
 
         launch {
             itemsDatabase?.getItemsDao()?.clearDatabase().also {
@@ -45,13 +46,12 @@ class ItemsDatabaseInteractor() {
                         itemsDatabase?.getItemsDao()?.insertNewItem(itemEntity)
                     }
                 }
+
             }.also {
-                itemSavingStatus.postValue(true)
+                dataUpdateFinishedStatus.onSuccess(Result.success(true))
             }
         }
-        return itemSavingStatus
+
+        return dataUpdateFinishedStatus.toObservable()
     }
 }
-
-
-

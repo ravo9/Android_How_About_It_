@@ -2,6 +2,7 @@ package dreamcatcher.howaboutit.data.repositories
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dreamcatcher.howaboutit.data.database.ItemEntity
 import dreamcatcher.howaboutit.data.database.ItemsDatabaseInteractor
 import dreamcatcher.howaboutit.network.ItemsNetworkInteractor
@@ -16,13 +17,12 @@ class ItemsRepository () {
         return databaseInteractor.getSingleSavedItemById(id)
     }
 
-    fun getAllItems(): LiveData<List<ItemEntity>>? {
-        updateDataFromBackEnd()
-        return databaseInteractor.getAllItems()
+    fun updateDatabaseWithServer(): LiveData<Boolean>? {
+        return updateDataFromBackEnd()
     }
 
-    fun getConnectionEstablishedStatus(): LiveData<Boolean>? {
-        return networkInteractor.connectionEstablishedStatus
+    fun getAllItems(): LiveData<List<ItemEntity>>? {
+        return databaseInteractor.getAllItems()
     }
 
     fun getNetworkError(): LiveData<Boolean>? {
@@ -30,7 +30,9 @@ class ItemsRepository () {
     }
 
     @SuppressLint("CheckResult")
-    private fun updateDataFromBackEnd() {
+    private fun updateDataFromBackEnd(): LiveData<Boolean>? {
+
+        val dataUpdateFinishedStatus = MutableLiveData<Boolean>()
 
         // Fetch items
         networkInteractor.getAllItems().subscribe {
@@ -40,9 +42,14 @@ class ItemsRepository () {
 
                 // Clear database not to store outdated data, and save freshly fetched items
                 if (itemsSet != null) {
-                    databaseInteractor.addItemsSet(itemsSet)
+
+                    databaseInteractor.addItemsSet(itemsSet).subscribe{
+                        dataUpdateFinishedStatus.postValue(true)
+                    }
                 }
             }
         }
+
+        return dataUpdateFinishedStatus
     }
 }

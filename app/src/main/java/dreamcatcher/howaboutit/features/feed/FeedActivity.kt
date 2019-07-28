@@ -22,8 +22,6 @@ import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
@@ -35,9 +33,6 @@ class FeedActivity : AppCompatActivity() {
     private val itemsToDisplay = ArrayList<ItemEntity>()
 
     private val allProtipsList = ArrayList<ProtipEntity>()
-
-    private var connectionEstablishedFlag = false
-    private var dataLoadingFinishedFlag = false
 
     private var itemsFetchedSuccessfullyFlag = false
     private var protipsFetchedSuccessfullyFlag = false
@@ -57,17 +52,14 @@ class FeedActivity : AppCompatActivity() {
         // Initialize RecyclerView (items/ products list)
         setupRecyclerView()
 
-        // Check if the application has connected to the server
-        subscribeForConnectionStatus()
-
         // Catch and handle potential network issues
         subscribeForNetworkError()
 
         // Fetch items (products) from the backend and load them into the view
-        subscribeForItems()
+        updateAndLoadItems()
 
         // Fetch protips from the backend and load them into the view
-        subscribeForProtips()
+        updateAndLoadProtips()
 
         // Initialize search engine
         initializeSearchEngine()
@@ -125,7 +117,6 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun displayDetailedView(itemId: String) {
-
         val fragment = DetailedViewFragment()
         val bundle = Bundle()
         bundle.putString("itemId", itemId)
@@ -137,9 +128,28 @@ class FeedActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun subscribeForItems() {
+    private fun updateAndLoadItems() {
+        viewModel.updateItemsDatabaseWithServer()?.observe(this, Observer<Boolean> {
 
+            if (it == true) {
+                loadItemsFromDatabase()
+            }
+        })
+    }
+
+    // Before there was a delay implemented to keep the loading screen visible to the user (for few seconds).
+    private fun updateAndLoadProtips() {
+        viewModel.updateProtipsDatabaseWithServer()?.observe(this, Observer<Boolean> {
+
+            if (it == true) {
+                loadProtipsFromDatabase()
+            }
+        })
+    }
+
+    private fun loadItemsFromDatabase() {
         viewModel.getAllItems()?.observe(this, Observer<List<ItemEntity>> {
+
             if (!it.isNullOrEmpty()) {
 
                 // Display fetched items (using adapter)
@@ -147,19 +157,13 @@ class FeedActivity : AppCompatActivity() {
                 allItemsList.addAll(it)
                 itemsFetchedSuccessfullyFlag = true
                 sendItemsAndProtipsToAdapter()
-
-                // Hide the loading view
-                dataLoadingFinishedFlag = true
-                if (connectionEstablishedFlag) {
-                    showLoadingView(false)
-                }
             }
         })
     }
 
-    private fun subscribeForProtips() {
-
+    private fun loadProtipsFromDatabase() {
         viewModel.getAllProtips()?.observe(this, Observer<List<ProtipEntity>> {
+
             if (!it.isNullOrEmpty()) {
 
                 // Display fetched items (using adapter)
@@ -169,22 +173,6 @@ class FeedActivity : AppCompatActivity() {
                 sendItemsAndProtipsToAdapter()
             }
         })
-    }
-
-    private fun subscribeForConnectionStatus() {
-
-        // The delay is implemented to keep the loading screen visible to the user (for few seconds).
-        Handler().postDelayed({
-
-            viewModel.getConnectionEstablishedStatus()?.observe(this, Observer<Boolean> {
-
-                // Hide the loading view
-                connectionEstablishedFlag = true
-                if (dataLoadingFinishedFlag) {
-                    showLoadingView(false)
-                }
-            })
-        }, 600)
     }
 
     private fun subscribeForNetworkError() {
@@ -199,6 +187,9 @@ class FeedActivity : AppCompatActivity() {
     private fun sendItemsAndProtipsToAdapter() {
         if (itemsFetchedSuccessfullyFlag && protipsFetchedSuccessfullyFlag) {
             generalListAdapter.setItemsAndProtips(allItemsList, allProtipsList)
+
+            // Hide the loading view
+            showLoadingView(false)
         }
     }
 
@@ -215,8 +206,10 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun retryConnection() {
-        viewModel.getAllItems()?.removeObservers(this)
-        subscribeForItems()
+        viewModel.updateItemsDatabaseWithServer()?.removeObservers(this)
+        viewModel.updateProtipsDatabaseWithServer()?.removeObservers(this)
+        updateAndLoadItems()
+        updateAndLoadProtips()
     }
 
     private fun showLoadingView(loadingState: Boolean) {
@@ -234,9 +227,6 @@ class FeedActivity : AppCompatActivity() {
             })
 
             loading_container.startAnimation(fadeOutAnimation)
-
-            //loading_container.animate().alpha(0f).setDuration(2000).start()
-            //loading_container.visibility = View.GONE
         }
     }
 

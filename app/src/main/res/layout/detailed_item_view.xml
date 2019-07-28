@@ -70,7 +70,6 @@
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="40dp"
-                        android:text="@string/loading_the_item"
                         android:textSize="18sp"/>
 
                 <TextView
@@ -81,7 +80,6 @@
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="40dp"
                         android:layout_marginBottom="30dp"
-                        android:text="@string/fake_text"
                         android:textAlignment="viewStart"/>
 
             </LinearLayout>

@@ -104,15 +104,25 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
 
     private fun configureLeftAndRightItemsViews(holder: TwoItemsRowViewHolder, position: Int) {
 
+        var view: View? = null
+        var item: ItemEntity? = null
+
         for (i in 0..1) {
+
+            // Clear variables
+            view = null
+            item = null
 
             try {
 
-                // Select an item
-                val item = itemsList[position][i]
-
                 // Select view
-                val view = holder.views[i]
+                view = holder.views[i]
+
+                // Ensure the view is visible (it could be hidden before)
+                view.visibility = View.VISIBLE
+
+                // Select an item
+                item = itemsList[position][i]
 
                 // Prepare fetched data
                 val name = item.name
@@ -121,17 +131,26 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                 // Set data within the holder
                 view.name.text = name
 
-                // Load thumbnail
-                Picasso.with(context).load(imageLink).into(view.thumbnail)
-
                 // Set onClickListener
+                val itemId = item?.id
                 view.setOnClickListener{
-                    val itemId = item.id
                     clickListener(itemId)
+                }
+
+                // Load thumbnail
+                if (!imageLink.isNullOrEmpty()) {
+                    Picasso.with(context).load(imageLink).into(view.thumbnail)
+                } else {
+                    view.thumbnail.setImageDrawable(null);
                 }
 
             } catch(e: Exception) {
                 Log.e("Exception", e.message);
+            }
+
+            // Hide second (right-hand side) view, if there is no item to be displayed there
+            if (i == 1 && item == null) {
+                view?.visibility = View.INVISIBLE
             }
         }
     }
