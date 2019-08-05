@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import dreamcatcher.howaboutit.R
-import dreamcatcher.howaboutit.data.database.ItemEntity
-import dreamcatcher.howaboutit.data.database.ProtipEntity
+import dreamcatcher.howaboutit.data.database.items.ItemEntity
+import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
 import kotlinx.android.synthetic.main.grid_single_item.view.*
 import kotlinx.android.synthetic.main.horizontal_row_view.view.*
 import kotlinx.android.synthetic.main.two_items_row.view.left_item
@@ -126,7 +126,7 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
 
                 // Prepare fetched data
                 val name = item.name
-                val imageLink = item.imageLink
+                var imageLink = item.imageLink
 
                 // Set data within the holder
                 view.name.text = name
@@ -137,9 +137,12 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                     clickListener(itemId)
                 }
 
+                // Order the image in smaller size to provide fluent loading.
+                imageLink += "?auto=compress&cs=tinysrgb&dpr=1&h=300&w=300"
+
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {
-                    Picasso.with(context).load(imageLink).into(view.thumbnail)
+                    Picasso.get().load(imageLink).into(view.thumbnail)
                 } else {
                     view.thumbnail.setImageDrawable(null);
                 }

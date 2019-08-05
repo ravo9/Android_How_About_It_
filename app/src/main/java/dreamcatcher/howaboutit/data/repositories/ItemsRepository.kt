@@ -3,8 +3,8 @@ package dreamcatcher.howaboutit.data.repositories
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import dreamcatcher.howaboutit.data.database.ItemEntity
-import dreamcatcher.howaboutit.data.database.ItemsDatabaseInteractor
+import dreamcatcher.howaboutit.data.database.items.ItemEntity
+import dreamcatcher.howaboutit.data.database.items.ItemsDatabaseInteractor
 import dreamcatcher.howaboutit.network.ItemsNetworkInteractor
 
 // Data Repository - the main gate of the model (data) part of the application

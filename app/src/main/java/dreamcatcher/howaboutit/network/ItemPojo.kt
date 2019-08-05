@@ -1,7 +1,6 @@
 package dreamcatcher.howaboutit.network
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 // ApiResponse object used for de-serializing data coming from API endpoint
 data class ItemPojo(
@@ -13,10 +12,13 @@ data class ItemPojo(
     val name: String,
 
     @SerializedName("Tags")
-    val tags: List<String>,
-
-    @SerializedName("Recycling Steps")
-    val recyclingSteps: List<String>,
+    val tags: String,
 
     @SerializedName("Image Link")
-    val imageLink: String)
+    val imageLink: String,
+
+    @SerializedName("Bin Type")
+    val binType: String,
+
+    @SerializedName("Additional Information")
+    val additionalInformation: List<String>?)

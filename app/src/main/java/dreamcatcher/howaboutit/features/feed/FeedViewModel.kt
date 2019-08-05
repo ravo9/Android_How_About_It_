@@ -2,8 +2,8 @@ package dreamcatcher.howaboutit.features.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dreamcatcher.howaboutit.data.database.ItemEntity
-import dreamcatcher.howaboutit.data.database.ProtipEntity
+import dreamcatcher.howaboutit.data.database.items.ItemEntity
+import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
 import dreamcatcher.howaboutit.data.repositories.ItemsRepository
 import dreamcatcher.howaboutit.data.repositories.ProtipsRepository
 

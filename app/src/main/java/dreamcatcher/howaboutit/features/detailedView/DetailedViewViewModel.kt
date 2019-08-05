@@ -2,7 +2,7 @@ package dreamcatcher.howaboutit.features.detailedView
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dreamcatcher.howaboutit.data.database.ItemEntity
+import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.data.repositories.ItemsRepository
 
 class DetailedViewViewModel : ViewModel() {

@@ -31,4 +31,12 @@
 
     <string name="footer">Bin Assistant ® 2019</string>
 
+    <!-- Analytics events names -->
+
+    <string name="analytics_event_feedback_stars_clicked" translatable="false">feedback_stars_clicked</string>
+
+    <string name="analytics_event_items_database_error" translatable="false">items_database_error</string>
+
+    <string name="analytics_event_protips_database_error" translatable="false">protips_database_error</string>
+
 </resources>

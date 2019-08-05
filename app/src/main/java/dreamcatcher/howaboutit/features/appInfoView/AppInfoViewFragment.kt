@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import dreamcatcher.howaboutit.R
+import dreamcatcher.howaboutit.features.basic.BasicFragment
 import kotlinx.android.synthetic.main.app_info_view.*
-import kotlinx.android.synthetic.main.app_info_view.spacing_bottom
-import kotlinx.android.synthetic.main.app_info_view.spacing_top
 
 // A view displaying contact and general app information
-class AppInfoViewFragment : Fragment() {
+class AppInfoViewFragment : BasicFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -36,6 +35,12 @@ class AppInfoViewFragment : Fragment() {
         ratingBar.setOnRatingBarChangeListener { _, _, _ ->
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.google_play_address)))
             startActivity(browserIntent)
+
+            // Analytics event logging
+            val context = context
+            if (context != null) {
+                FirebaseAnalytics.getInstance(context).logEvent(getString(R.string.analytics_event_feedback_stars_clicked), null)
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package dreamcatcher.howaboutit.features.feed
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -9,14 +10,16 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import dreamcatcher.howaboutit.R
-import dreamcatcher.howaboutit.data.database.ItemEntity
-import dreamcatcher.howaboutit.data.database.ProtipEntity
+import dreamcatcher.howaboutit.data.database.items.ItemEntity
+import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
 import dreamcatcher.howaboutit.features.appInfoView.AppInfoViewFragment
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
@@ -68,6 +71,13 @@ class FeedActivity : AppCompatActivity() {
         initializeAppInfoButton()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // Prevent displaying the keyboard when the app is resumed from the background
+        currentFocus?.clearFocus()
+    }
+
     private fun filterResultsToDisplay(phrase: String) {
 
         itemsToDisplay.clear()
@@ -81,6 +91,13 @@ class FeedActivity : AppCompatActivity() {
 
         // Send a new list to adapter to display them.
         generalListAdapter.updateItems(itemsToDisplay)
+
+        // Analytics event logging
+        if (itemsToDisplay.isEmpty()) {
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, phrase)
+            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+        }
     }
 
     private fun nameContainsSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
@@ -117,6 +134,11 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun displayDetailedView(itemId: String) {
+
+        // Hide the keyboard just in case to avoid problems with the fragment view displaying
+        // It would be better to have this in Fragment - because of encapsulation - but then it's not so fluent.
+        hideKeyboard()
+
         val fragment = DetailedViewFragment()
         val bundle = Bundle()
         bundle.putString("itemId", itemId)
@@ -212,11 +234,19 @@ class FeedActivity : AppCompatActivity() {
         updateAndLoadProtips()
     }
 
+    private fun hideKeyboard() {
+        val view = this.currentFocus
+        view?.let { view ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.let { it.hideSoftInputFromWindow(view.windowToken, 0) }
+        }
+    }
+
     private fun showLoadingView(loadingState: Boolean) {
+
         if (loadingState) {
             loading_container.visibility = View.VISIBLE
         } else {
-
             val fadeOutAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_out_animation)
             fadeOutAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(arg0: Animation) {}
@@ -226,12 +256,21 @@ class FeedActivity : AppCompatActivity() {
                 }
             })
 
-            loading_container.startAnimation(fadeOutAnimation)
+            // We add some delay to give images more time to be loaded properly.
+            loading_container.postDelayed({
+                loading_container.startAnimation(fadeOutAnimation)
+            }, 1000)
         }
     }
 
     private fun initializeAppInfoButton() {
+
         app_info_button.setOnClickListener {
+
+            // Hide the keyboard just in case to avoid problems with the fragment view displaying
+            // It would be better to have this in Fragment - because of encapsulation - but then it's not so fluent.
+            hideKeyboard()
+
             val fragment = AppInfoViewFragment()
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.add(R.id.main_content_container, fragment)

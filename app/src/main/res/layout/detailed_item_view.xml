@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/detailed_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,7 +52,8 @@
                             android:textSize="16sp"
                             android:letterSpacing="0.03"
                             android:textColor="@color/colorTextAlternative"
-                            android:visibility="invisible"/>
+                            android:visibility="invisible"
+                            tools:visibility="visible"/>
 
                     <ImageView
                             android:id="@+id/thumbnail"
@@ -69,8 +71,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
-                        android:layout_marginTop="40dp"
-                        android:textSize="18sp"/>
+                        android:layout_marginTop="30dp"
+                        android:textSize="18sp"
+                        android:letterSpacing="0.05"/>
 
                 <TextView
                         android:id="@+id/detailed_item_view_recycling_steps"
@@ -78,9 +81,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginBottom="30dp"
-                        android:textAlignment="viewStart"/>
+                        android:layout_marginTop="30dp"
+                        android:textSize="18sp"
+                        android:letterSpacing="0.06"
+                        android:textAllCaps="true"/>
+
+                <TextView
+                        android:id="@+id/detailed_item_view_additional_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
+                        android:layout_marginTop="40dp"/>
+
+                <include
+                        layout="@layout/footer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
