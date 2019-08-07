@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_badge"
+        android:elevation="@dimen/loading_badge_elevation"
+        android:focusable="true"
+        android:clickable="true">
+
+    <RelativeLayout
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/title">
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_centerInParent="true"
+
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:progress="23"/>
+
+        <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/logo"
+                android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintBottom_toTopOf="@id/loading_text"
+
+            android:text="@string/app_name"
+            android:letterSpacing="0.05"
+            android:textSize="@dimen/loading_badge_text_size_big"
+            android:textColor="@color/colorTextBright"/>
+
+    <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/footer"
+
+            android:text="@string/loading"
+            android:textSize="@dimen/loading_badge_text_size_medium"
+            android:textColor="@color/colorTextVeryBright"/>
+
+    <TextView
+            style="@style/footer"
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/loading_badge_additional_spacing"
+
+            app:layout_constraintTop_toBottomOf="@id/loading_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:text="@string/footer"
+            android:textSize="@dimen/footer_text_size"
+            android:textColor="@color/colorTextVeryBright"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

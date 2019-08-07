@@ -1,0 +1,42 @@
+<resources>
+
+    <string name="app_name">Bin Assistant</string>
+
+    <string name="app_email" translatable="false">appEmail@email.com</string>
+
+    <!-- Todo: Change the address before release. -->
+    <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.rankme</string>
+
+    <string name="find_or_choose_the_kind">Find or choose the kind of waste from the list, to check
+        how to recycle it properly.
+    </string>
+
+    <string name="connection_problem">Connection problem</string>
+
+    <string name="please_check_your_internet_connection">Please check your Internet connection</string>
+
+    <string name="thank_you_for_downloading_bin">Thank you for downloading Bin Assistant!</string>
+
+    <string name="we_hope_that_our_work">We hope that our work helps promoting ecological life-style.</string>
+
+    <string name="we_will_be_very_grateful">We will be very grateful if you would like to leave us a feedback.</string>
+
+    <string name="if_you_can_see_anything">If you can see anything we could improve, please do not hesitate to contact us:</string>
+
+    <string name="ok" translatable="false">OK</string>
+
+    <string name="picture_unavailable">Picture unavailable</string>
+
+    <string name="loading">Loading...</string>
+
+    <string name="footer">Bin Assistant ® 2019</string>
+
+    <!-- Analytics events names -->
+
+    <string name="analytics_event_feedback_stars_clicked" translatable="false">feedback_stars_clicked</string>
+
+    <string name="analytics_event_items_database_error" translatable="false">items_database_error</string>
+
+    <string name="analytics_event_protips_database_error" translatable="false">protips_database_error</string>
+
+</resources>

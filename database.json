@@ -1,0 +1,14 @@
+[
+  {
+    "ID": 1,
+    "Name": "Rêcznik papierowy",
+    "Tags": "rêcznik recznik papier",
+    "Recycling Steps": "odpady zmieszane"
+  },
+  {
+    "ID": 2,
+    "Name": "Szklana, kolorowa butelka",
+    "Tags": "piwo piwko piwerko warka tyskie",
+    "Recycling Steps": "zielony pojemnik na szk³o\", \"odpady zmieszane"
+  }
+]
