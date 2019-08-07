@@ -12,6 +12,7 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +26,8 @@ import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
@@ -69,6 +72,9 @@ class FeedActivity : AppCompatActivity() {
 
         // Initialize app info button
         initializeAppInfoButton()
+
+        // Check the user's language (to inform that the app's content is only available in Polish language)
+        languageCheck()
     }
 
     override fun onResume() {
@@ -260,6 +266,21 @@ class FeedActivity : AppCompatActivity() {
             loading_container.postDelayed({
                 loading_container.startAnimation(fadeOutAnimation)
             }, 1000)
+        }
+    }
+
+    private fun languageCheck() {
+        val alertDialog = AlertDialog.Builder(this@FeedActivity).create()
+        alertDialog.setTitle(getString(dreamcatcher.howaboutit.R.string.language_issue))
+        alertDialog.setMessage(getString(dreamcatcher.howaboutit.R.string.we_are_sorry_but_currently))
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(dreamcatcher.howaboutit.R.string.ok))
+        {
+                dialog, which ->
+            dialog.dismiss()
+        }
+
+        if (Locale.getDefault().getDisplayLanguage() != "polski") {
+            alertDialog.show()
         }
     }
 

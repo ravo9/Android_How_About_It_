@@ -52,6 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="42dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
                 android:background="@drawable/background_badge"
                 android:textAlignment="viewStart"
                 android:lines="1"/>

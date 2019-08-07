@@ -143,8 +143,10 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {
                     Picasso.get().load(imageLink).into(view.thumbnail)
+                    view.thumbnail_placeholder_text.visibility = View.INVISIBLE
                 } else {
-                    view.thumbnail.setImageDrawable(null);
+                    view.thumbnail.setImageDrawable(null)
+                    view.thumbnail_placeholder_text.visibility = View.VISIBLE
                 }
 
             } catch(e: Exception) {
