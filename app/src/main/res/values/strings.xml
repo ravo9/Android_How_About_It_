@@ -23,6 +23,25 @@
 
     <string name="if_you_can_see_anything">If you can see anything we could improve, please do not hesitate to contact us:</string>
 
+    <string name="huge_special_thanks_to_everyone">
+        Huge specials thanks to everyone who contributed into the app:\n\n
+
+        App Icon made by Icongeek26 from www.flaticon.com:\n
+        https://www.flaticon.com/authors/icongeek26\n\n
+
+        Used font: \'Lato\' by Łukasz Dziedzic:\n
+        https://fonts.google.com/specimen/Lato\n\n
+
+        Circular Progress Bar drawable code by M. Reza Nasirloo:\n
+        https://medium.com/@m.reza.nasirloo\n\n
+
+        Cross Icon made by Lyolya from www.flaticon.com:\n
+        https://www.flaticon.com/authors/lyolya\n\n
+
+        Search Engine Icon made by Vectors Market from www.flaticon.com:\n
+        https://www.flaticon.com/authors/vectors-market
+    </string>
+
     <string name="language_issue" translatable="false">Language issue</string>
 
     <string name="we_are_sorry_but_currently" translatable="false">We are sorry, but currently the app content is available only in Polish language. English version is coming soon!</string>

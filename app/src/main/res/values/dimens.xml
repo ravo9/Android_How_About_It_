@@ -14,7 +14,7 @@
 
     <dimen name="detailed_view_vertical_extra_spacing">50dp</dimen>
     <dimen name="detailed_view_vertical_side_spacing">35dp</dimen>
-    <dimen name="detailed_view_cross_button_length">34dp</dimen>
+    <dimen name="detailed_view_cross_button_length">30dp</dimen>
     <dimen name="detailed_view_cross_button_margin">20dp</dimen>
     <dimen name="detailed_view_image_length">200dp</dimen>
 

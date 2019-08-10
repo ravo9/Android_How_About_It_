@@ -20,4 +20,22 @@
     <string name="if_you_can_see_anything">Jeżeli masz jakiekolwiek uwagi co do naszej aplikacji, prosimy o kontakt pod
         poniższym adresem email:
     </string>
+    <string name="huge_special_thanks_to_everyone">
+        Specjalne podziękowania dla ludzi, którzy przyczynili się do powstania aplikacji:\n\n
+
+        Ikona aplikacji utworzona przez Icongeek26 ze strony www.flaticon.com:\n
+        https://www.flaticon.com/authors/icongeek26\n\n
+
+        Czcionka \'Lato\' utworzona przez Łukasza Dziedzica:\n
+        https://fonts.google.com/specimen/Lato\n\n
+
+        Kod widgetu "Circular progress bar" napisany przez M. Reza Nasirloo:\n
+        https://medium.com/@m.reza.nasirloo\n\n
+
+        Ikonka krzyżyka utworzona przez Lyolya ze strony www.flaticon.com:\n
+        https://www.flaticon.com/authors/lyolya\n\n
+
+        Ikonka wyszukiwarki utworzona przez Vectors Market ze strony www.flaticon.com:\n
+        https://www.flaticon.com/authors/vectors-market
+    </string>
 </resources>

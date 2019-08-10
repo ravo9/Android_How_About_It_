@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/app_info_view_container"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/app_info_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -29,7 +29,8 @@
 
         <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" tools:layout_editor_absoluteY="-304dp"
+                tools:layout_editor_absoluteX="16dp">
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -86,14 +87,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="20dp"
                         android:text="@string/app_email"/>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#646"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/huge_special_thanks_to_everyone"/>
 
                 <TextView
                         style="@style/footer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/footer"/>
 
