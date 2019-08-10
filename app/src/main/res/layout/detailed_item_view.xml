@@ -110,7 +110,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_margin="@dimen/detailed_view_cross_button_margin"
-                android:src="@drawable/image_cross_non_commercial"
+                android:src="@drawable/icon_cross"
                 android:scaleType="centerCrop"
                 android:background="@null"/>
 

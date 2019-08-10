@@ -3,6 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 
 android {
     lintOptions {
@@ -42,6 +43,8 @@ dependencies {
     def gson_version = '2.8.2'
     def coroutines_version = '0.27.0-eap13'
     def firebase_core_version = '17.0.1'
+    def firebase_analytics_version = '17.0.1'
+    def firebase_crashlytics_version = '2.10.1'
     def firebase_in_messages_version = '18.0.2'
     def guava_version = '27.0.1-android'
 
@@ -96,6 +99,12 @@ dependencies {
 
     // Firebase core
     implementation "com.google.firebase:firebase-core:$firebase_core_version"
+
+    // Firebase Analytics (recommended with Crashlytics)
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
+
+    // Firebase Crashlytics
+    implementation "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics_version"
 
     // Firebase In-App Messaging
     implementation "com.google.firebase:firebase-inappmessaging-display:$firebase_in_messages_version"

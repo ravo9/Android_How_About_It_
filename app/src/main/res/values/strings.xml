@@ -2,10 +2,10 @@
 
     <string name="app_name">Bin Assistant</string>
 
-    <string name="app_email" translatable="false">appEmail@email.com</string>
+    <string name="app_email" translatable="false">wyrzuctoapp@email.com</string>
 
     <!-- Todo: Change the address before release. -->
-    <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.rankme</string>
+    <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.howaboutit</string>
 
     <string name="find_or_choose_the_kind">Find or choose the kind of waste from the list, to check
         how to recycle it properly.
