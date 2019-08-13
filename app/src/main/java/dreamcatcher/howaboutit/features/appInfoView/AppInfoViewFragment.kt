@@ -42,5 +42,11 @@ class AppInfoViewFragment : BasicFragment() {
                 FirebaseAnalytics.getInstance(context).logEvent(getString(R.string.analytics_event_feedback_stars_clicked), null)
             }
         }
+
+        // Setup privacy policy click listener
+        privacyPolicyLink.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_address)))
+            startActivity(browserIntent)
+        }
     }
 }

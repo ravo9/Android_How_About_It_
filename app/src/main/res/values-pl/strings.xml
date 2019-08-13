@@ -38,4 +38,6 @@
         Ikonka wyszukiwarki utworzona przez Vectors Market ze strony www.flaticon.com:\n
         https://www.flaticon.com/authors/vectors-market
     </string>
+    <string name="privacy_policy_address">https://docs.google.com/document/d/1Hvlz-SVLWPADJCSugBP4tkTM44Se9OgSvRf0uwZmvOc/edit?usp=sharing</string>
+    <string name="privacy_policy_link">Polityka Prywatności (link)</string>
 </resources>

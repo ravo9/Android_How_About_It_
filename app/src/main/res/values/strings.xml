@@ -4,8 +4,11 @@
 
     <string name="app_email" translatable="false">wyrzuctoapp@email.com</string>
 
-    <!-- Todo: Change the address before release. -->
     <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.howaboutit</string>
+
+    <string name="privacy_policy_address">https://docs.google.com/document/d/1B78TvABuGG5Z68sBFm6ff9eDcceemzXHqXHDce0WDCI/edit?usp=sharing</string>
+
+    <string name="privacy_policy_link">Privacy Policy (link)</string>
 
     <string name="find_or_choose_the_kind">Find or choose the kind of waste from the list, to check
         how to recycle it properly.
