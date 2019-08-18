@@ -10,12 +10,12 @@ android {
         checkReleaseBuilds false
     }
     defaultConfig {
-        multiDexEnabled true
+        multiDexEnabled false
     }
     compileSdkVersion 28
     defaultConfig {
         applicationId "development.dreamcatcher.howaboutit"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 4
         versionName "1.3"
