@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,8 @@ class FeedActivity : AppCompatActivity() {
     private var protipsFetchedSuccessfullyFlag = false
 
     private var toastMessage: Toast? = null
+
+    private var handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +100,7 @@ class FeedActivity : AppCompatActivity() {
 
         // Send a new list to adapter to display them.
         generalListAdapter.updateItems(itemsToDisplay)
+        //generalListAdapter.updateItems(allItemsList)
 
         // Analytics event logging
         if (itemsToDisplay.isEmpty()) {
@@ -122,13 +126,15 @@ class FeedActivity : AppCompatActivity() {
     private fun initializeSearchEngine() {
         search_engine.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                handler.post{
+                    filterResultsToDisplay(p0.toString())
+                }
+            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                filterResultsToDisplay(p0.toString())
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
     }
 
@@ -136,6 +142,10 @@ class FeedActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         general_recyclerview.layoutManager = layoutManager
         generalListAdapter = GeneralListAdapter{ itemId: String -> displayDetailedView(itemId) }
+
+        general_recyclerview.setHasFixedSize(true)
+        generalListAdapter.setHasStableIds(true)
+
         general_recyclerview.adapter = generalListAdapter
     }
 
@@ -221,6 +231,16 @@ class FeedActivity : AppCompatActivity() {
         }
     }
 
+    private fun setRecyclerViewHeightProgramatically(itemsAmount: Int) {
+        val params = general_recyclerview.getLayoutParams()
+        val rowHeight = 130
+        val rowWithProtipHeight = 300
+        var height = ((itemsAmount / 4) * rowHeight + (itemsAmount / 4) * rowWithProtipHeight)
+        if (itemsAmount%4 == 1  || itemsAmount%4 == 2) height += rowHeight
+        if (itemsAmount%4 == 3) height += rowWithProtipHeight
+        params.height = height
+    }
+
     private fun displayNetworkProblemMessage() {
         val isMessageCurrentlyDisplaying = toastMessage?.view?.isShown
 
@@ -263,9 +283,13 @@ class FeedActivity : AppCompatActivity() {
             })
 
             // We add some delay to give images more time to be loaded properly.
-            loading_container.postDelayed({
+            /*loading_container.postDelayed({
                 loading_container.startAnimation(fadeOutAnimation)
-            }, 1000)
+            }, 1000)*/
+
+            loading_container.doOnLayout {
+                loading_container.startAnimation(fadeOutAnimation)
+            }
         }
     }
 

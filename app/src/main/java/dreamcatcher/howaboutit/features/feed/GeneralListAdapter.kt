@@ -138,10 +138,10 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                 }
 
                 // Order the image in smaller size to provide fluent loading.
-                imageLink += "?auto=compress&cs=tinysrgb&dpr=1&h=300&w=300"
+                //imageLink += "?auto=compress&cs=tinysrgb&dpr=1&h=300&w=300"
 
                 // REMOVE
-                imageLink = "https://pixabay.com/get/55e6d2424f52a414f1dc8460825668204022dfe05557704c73297ed1/chewing-gum-3671508_640.jpg"
+                imageLink = "https://i.imgur.com/k41tQkY.jpg"
 
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {
