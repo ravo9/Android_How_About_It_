@@ -78,6 +78,18 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
             VIEW_TYPE_TWO_ITEMS_ROW -> {
                 val twoItemsRowViewHolder = holder as TwoItemsRowViewHolder
                 configureTwoItemsRowView(twoItemsRowViewHolder, position)
+
+                // Code that works for the first search (RecyclerView speedUp) - views recycling.
+                /*if (firstLoading) {
+                    val twoItemsRowView = inflater.inflate(R.layout.two_items_row, parent, false)
+                    viewHolder = TwoItemsRowViewHolder(twoItemsRowView)
+                    (rowViewsList as ArrayList).add(viewHolder)
+
+                } else {
+                    viewHolder = rowViewsList.get(0)
+                    (rowViewsList as ArrayList).removeAt(0)
+                    (rowViewsList as ArrayList).add(viewHolder)
+                }*/
             }
 
             VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW -> {
