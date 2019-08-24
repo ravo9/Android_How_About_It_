@@ -12,59 +12,80 @@
         android:focusableInTouchMode="true">
     <!-- We need these last two properties to prevent an initial keyboard opening. -->
 
-    <ImageButton
-            android:id="@+id/app_info_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            android:background="@null"
-            android:layout_gravity="end"
-            android:layout_margin="15dp" />
-
-    <TextView
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:layout_marginStart="@dimen/activity_main_top_panel_text_margin_side"
-            android:layout_marginEnd="@dimen/activity_main_top_panel_text_margin_side"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="15dp"
+        <ImageButton
+                android:id="@+id/app_info_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                android:layout_gravity="end"
+                android:layout_margin="15dp"/>
 
-            android:text="@string/find_or_choose_the_kind"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/background_badge"
-            android:elevation="@dimen/elevation_first_floor"
-
-            app:layout_collapseMode="pin"
-            app:layout_collapseParallaxMultiplier="0.5"
-
-            android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
-            android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
-            android:layout_marginTop="190dp"
-            android:layout_marginBottom="5dp">
-
-        <EditText
-                android:id="@+id/search_engine"
+        <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="42dp"
-                android:inputType="text"
-                android:imeOptions="actionDone"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/activity_main_top_panel_text_margin_side"
+                android:layout_marginEnd="@dimen/activity_main_top_panel_text_margin_side"
+                android:layout_marginTop="18dp"
+
+                android:text="@string/find_or_choose_the_kind" android:baselineAligned="false"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:background="@drawable/background_badge"
-                android:textAlignment="viewStart"
-                android:lines="1"/>
+                android:elevation="@dimen/elevation_first_floor"
 
-        <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/icon_search"/>
+                app:layout_collapseMode="pin"
+                app:layout_collapseParallaxMultiplier="0.5"
 
-    </RelativeLayout>
+                android:layout_marginStart="@dimen/activity_main_top_panel_search_bar_margin_side"
+                android:layout_marginEnd="@dimen/activity_main_top_panel_search_bar_margin_side"
+                android:layout_marginTop="38dp">
+
+            <EditText
+                    android:id="@+id/search_engine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="42dp"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/background_badge"
+                    android:textAlignment="viewStart"
+                    android:lines="1"/>
+
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/icon_search"/>
+
+        </RelativeLayout>
+
+        <Button
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"
+
+                android:backgroundTint="@drawable/search_button_color_selector"
+                android:letterSpacing="0.12"
+                android:textColor="#FFF"
+                android:textAllCaps="false"
+                android:elevation="@dimen/elevation_first_floor"
+                android:text="@string/search"/>
+
+    </LinearLayout>
 
 </com.google.android.material.appbar.CollapsingToolbarLayout>

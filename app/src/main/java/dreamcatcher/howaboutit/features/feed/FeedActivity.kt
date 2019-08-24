@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +31,7 @@ import kotlinx.android.synthetic.main.loading_badge.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
 
@@ -46,7 +48,11 @@ class FeedActivity : AppCompatActivity() {
 
     private var toastMessage: Toast? = null
 
-    private var handler = Handler()
+    private val handler = Handler()
+
+    private val allowedItemsAmount = 24
+
+    private var mostRecentSearchPhrase = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +93,16 @@ class FeedActivity : AppCompatActivity() {
         currentFocus?.clearFocus()
     }
 
+    override fun onBackPressed() {
+        if (mostRecentSearchPhrase != "") resetSearchResults()
+        else super.onBackPressed()
+    }
+
+    private fun resetSearchResults() {
+        search_engine.text.clear()
+        searchAction()
+    }
+
     private fun filterResultsToDisplay(phrase: String) {
 
         itemsToDisplay.clear()
@@ -124,18 +140,59 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun initializeSearchEngine() {
+
         search_engine.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {
-                handler.post{
+
+                /*handler.post{
                     filterResultsToDisplay(p0.toString())
-                }
+                }*/
+
+                if (p0.toString().equals("")) resetSearchResults()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
+
+        // 'Enter' key on the keyboard
+        search_engine.setOnEditorActionListener { v, actionId, event ->
+            if (actionId != EditorInfo.IME_ACTION_NONE && actionId != EditorInfo.IME_ACTION_PREVIOUS) {
+                searchAction()
+                true
+            } else {
+                false
+            }
+        }
+
+        // 'Search' button
+        search_button.setOnClickListener{
+            searchAction()
+        }
+    }
+
+    private fun searchAction() {
+        search_button.isEnabled = false
+
+        if (!search_engine.text.toString().equals(mostRecentSearchPhrase)) {
+            mostRecentSearchPhrase = search_engine.text.toString()
+            filterResultsToDisplay(mostRecentSearchPhrase)
+
+            // Button color change.
+            search_button.postDelayed({
+                search_button.isEnabled = true
+            }, 500)
+        } else {
+
+            // Button color change.
+            search_button.postDelayed({
+                search_button.isEnabled = true
+            }, 100)
+        }
+
+        hideKeyboard()
     }
 
     private fun setupRecyclerView() {
@@ -224,7 +281,7 @@ class FeedActivity : AppCompatActivity() {
 
     private fun sendItemsAndProtipsToAdapter() {
         if (itemsFetchedSuccessfullyFlag && protipsFetchedSuccessfullyFlag) {
-            generalListAdapter.setItemsAndProtips(allItemsList, allProtipsList)
+            generalListAdapter.setItemsAndProtips(allItemsList.subList(0, allowedItemsAmount), allProtipsList)
 
             // Hide the loading view
             showLoadingView(false)

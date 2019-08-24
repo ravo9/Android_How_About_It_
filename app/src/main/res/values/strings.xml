@@ -55,6 +55,8 @@
 
     <string name="loading">Loading...</string>
 
+    <string name="search">Search</string>
+
     <string name="footer">Bin Assistant ® 2019</string>
 
     <!-- Analytics events names -->
