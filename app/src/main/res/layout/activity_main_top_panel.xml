@@ -71,6 +71,7 @@
         </RelativeLayout>
 
         <Button
+                style="@style/ButtonStyle"
                 android:id="@+id/search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,11 +80,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
 
-                android:backgroundTint="@drawable/search_button_color_selector"
-                android:letterSpacing="0.12"
-                android:textColor="#FFF"
-                android:textAllCaps="false"
-                android:elevation="@dimen/elevation_first_floor"
                 android:text="@string/search"/>
 
     </LinearLayout>

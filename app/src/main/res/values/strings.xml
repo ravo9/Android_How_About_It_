@@ -57,6 +57,21 @@
 
     <string name="search">Search</string>
 
+    <string name="show_more">Show more</string>
+
+    <string name="unfortunately_we_cannot_find_anything">
+        Unfortunately, we cannot find anything like this. :(\n\n
+        Please click on the button below to let us know about the missing item.\n\n
+        We\'ll try to update our database as quick as possible!
+    </string>
+
+    <string name="thank_you_well_try_to">
+        Thank you!\n\n
+        We\'ll try to add the missing item soon!
+    </string>
+
+    <string name="yes_please">Yes, please</string>
+
     <string name="footer">Bin Assistant ® 2019</string>
 
     <!-- Analytics events names -->

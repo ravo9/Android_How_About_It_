@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -28,6 +29,7 @@ import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
+import kotlinx.android.synthetic.main.no_results_view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,7 +52,7 @@ class FeedActivity : AppCompatActivity() {
 
     private val handler = Handler()
 
-    private val allowedItemsAmount = 24
+    private var allowedItemsAmount = 24
 
     private var mostRecentSearchPhrase = ""
 
@@ -82,6 +84,12 @@ class FeedActivity : AppCompatActivity() {
         // Initialize app info button
         initializeAppInfoButton()
 
+        // Initialize "Show more" button
+        initializeShowMoreButton()
+
+        // Initialize "Yes please" button
+        initializeYesPleaseButton()
+
         // Check the user's language (to inform that the app's content is only available in Polish language)
         languageCheck()
     }
@@ -100,6 +108,7 @@ class FeedActivity : AppCompatActivity() {
 
     private fun resetSearchResults() {
         search_engine.text.clear()
+        allowedItemsAmount = 24
         searchAction()
     }
 
@@ -114,16 +123,20 @@ class FeedActivity : AppCompatActivity() {
             }
         }
 
-        // Send a new list to adapter to display them.
-        generalListAdapter.updateItems(itemsToDisplay)
-        //generalListAdapter.updateItems(allItemsList)
+        allowedItemsAmount = 24
 
-        // Analytics event logging
-        if (itemsToDisplay.isEmpty()) {
+        // Send a new list to adapter to display them.
+        updateDisplayedItems()
+
+        // Update ShowMore button visibility.
+        updateShowMoreButton()
+
+        // Analytics event logging.
+        /*if (itemsToDisplay.isEmpty()) {
             val bundle = Bundle()
             bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, phrase)
             FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
-        }
+        }*/
     }
 
     private fun nameContainsSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
@@ -149,7 +162,11 @@ class FeedActivity : AppCompatActivity() {
                     filterResultsToDisplay(p0.toString())
                 }*/
 
-                if (p0.toString().equals("")) resetSearchResults()
+                if (p0.toString().equals("")) {
+                    handler.post {
+                        resetSearchResults()
+                    }
+                }
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -174,7 +191,12 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun searchAction() {
+
+        allowedItemsAmount = 24
+
         search_button.isEnabled = false
+
+        hideNoResultsAndThankYouViews()
 
         if (!search_engine.text.toString().equals(mostRecentSearchPhrase)) {
             mostRecentSearchPhrase = search_engine.text.toString()
@@ -196,11 +218,13 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val layoutManager = LinearLayoutManager(this)
-        general_recyclerview.layoutManager = layoutManager
-        generalListAdapter = GeneralListAdapter{ itemId: String -> displayDetailedView(itemId) }
 
         general_recyclerview.setHasFixedSize(true)
+
+        val layoutManager = LinearLayoutManager(this)
+        general_recyclerview.layoutManager = layoutManager
+
+        generalListAdapter = GeneralListAdapter{ itemId: String -> displayDetailedView(itemId) }
         generalListAdapter.setHasStableIds(true)
 
         general_recyclerview.adapter = generalListAdapter
@@ -247,11 +271,17 @@ class FeedActivity : AppCompatActivity() {
 
             if (!it.isNullOrEmpty()) {
 
-                // Display fetched items (using adapter)
-                allItemsList.clear()
-                allItemsList.addAll(it)
-                itemsFetchedSuccessfullyFlag = true
-                sendItemsAndProtipsToAdapter()
+                // For some weird reason the data comes first in smaller parties. I don't know why,
+                // but to fix it I have added this 'if' condition temporarily.
+                // Probably that's the reason of "repeated items issue".
+                if (it.size > allowedItemsAmount) {
+
+                    // Display fetched items (using adapter)
+                    allItemsList.clear()
+                    allItemsList.addAll(it)
+                    itemsFetchedSuccessfullyFlag = true
+                    sendItemsAndProtipsToAdapter()
+                }
             }
         })
     }
@@ -281,10 +311,17 @@ class FeedActivity : AppCompatActivity() {
 
     private fun sendItemsAndProtipsToAdapter() {
         if (itemsFetchedSuccessfullyFlag && protipsFetchedSuccessfullyFlag) {
-            generalListAdapter.setItemsAndProtips(allItemsList.subList(0, allowedItemsAmount), allProtipsList)
 
-            // Hide the loading view
-            showLoadingView(false)
+            // Sometimes index is out of bound. It's important to ivestigate this.
+            try {
+                itemsToDisplay.addAll(allItemsList)
+                generalListAdapter.setItemsAndProtips(itemsToDisplay.subList(0, allowedItemsAmount), allProtipsList)
+
+                // Hide the loading view
+                showLoadingView(false)
+            } catch (e: Exception) {
+                //Log.e("Exception", e.message);
+            }
         }
     }
 
@@ -345,6 +382,11 @@ class FeedActivity : AppCompatActivity() {
             }, 1000)*/
 
             loading_container.doOnLayout {
+
+                // These settings allow user to interact with content before the animation is finished.
+                loading_container.isClickable = false
+                loading_container.isFocusable = false
+
                 loading_container.startAnimation(fadeOutAnimation)
             }
         }
@@ -379,6 +421,66 @@ class FeedActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+    }
+
+    private fun initializeShowMoreButton() {
+
+        show_more_button.setOnClickListener {
+
+            allowedItemsAmount += 24
+
+            // Send a new list to adapter to display them.
+            updateDisplayedItems()
+
+            // Update ShowMore button visibility.
+            updateShowMoreButton()
+        }
+    }
+
+    private fun initializeYesPleaseButton() {
+
+        yes_please_button.setOnClickListener {
+
+            // Update views' visibility.
+            no_results_view.visibility = View.GONE
+            thank_you_view.visibility = View.VISIBLE
+
+            // Analytics event logging.
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, search_engine.text.toString())
+            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+        }
+    }
+
+    private fun updateDisplayedItems() {
+
+        // Sometimes index is out of bound. It's important to investigate this.
+        try {
+
+            if (itemsToDisplay.size <= allowedItemsAmount) {
+                generalListAdapter.updateItems(itemsToDisplay)
+            } else {
+                generalListAdapter.updateItems(itemsToDisplay.subList(0, allowedItemsAmount))
+            }
+
+            // Check "No results" view displaying.
+            if (itemsToDisplay.size == 0) no_results_view.visibility = View.VISIBLE
+
+            // Hide the loading view
+            showLoadingView(false)
+        } catch (e: Exception) {
+            //Log.e("Exception", e.message);
+        }
+    }
+
+    private fun updateShowMoreButton() {
+        if (itemsToDisplay.size <= allowedItemsAmount) show_more_button.visibility = View.GONE
+        else show_more_button.visibility = View.VISIBLE
+    }
+
+    private fun hideNoResultsAndThankYouViews () {
+        no_results_view.visibility = View.GONE
+        thank_you_view.visibility = View.GONE
     }
 
     private fun animateProgressBar() {

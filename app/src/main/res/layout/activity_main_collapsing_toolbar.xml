@@ -52,6 +52,47 @@
                     android:scrollbars="vertical"
                     android:smoothScrollbar="true"/>
 
+            <Button
+                    style="@style/ButtonStyle"
+                    android:id="@+id/show_more_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+
+                    android:text="@string/show_more"/>
+
+            <LinearLayout
+                    android:id="@+id/no_results_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="gone">
+
+                <include
+                        layout="@layout/no_results_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/thank_you_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="gone">
+
+                <include
+                        layout="@layout/thank_you_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"/>
+
+            </LinearLayout>
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

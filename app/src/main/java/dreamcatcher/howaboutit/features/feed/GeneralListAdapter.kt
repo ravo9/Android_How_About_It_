@@ -43,6 +43,10 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         return itemsList.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     override fun getItemViewType(position: Int): Int {
         // Return 0 or 1 per each position to indicate viewtype.
         return position % 2
@@ -153,7 +157,7 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                 //imageLink += "?auto=compress&cs=tinysrgb&dpr=1&h=300&w=300"
 
                 // REMOVE
-                imageLink = "https://i.imgur.com/k41tQkY.jpg"
+                //imageLink = "https://i.imgur.com/k41tQkY.jpg"
 
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {

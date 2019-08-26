@@ -41,4 +41,14 @@
     <string name="privacy_policy_address">https://docs.google.com/document/d/1Hvlz-SVLWPADJCSugBP4tkTM44Se9OgSvRf0uwZmvOc/edit?usp=sharing</string>
     <string name="privacy_policy_link">Polityka Prywatności (link)</string>
     <string name="search">Znajdź</string>
+    <string name="show_more">Pokaż więcej</string>
+    <string name="unfortunately_we_cannot_find_anything">
+        Niestety nie mamy takiego elementu w naszej bazie. :(\n\n
+        Kliknij w przycisk poniżej, aby nas o tym anonimowo poinformować. Wówczas postaramy się dodać brakującą rzecz jak najszybciej!
+    </string>
+    <string name="yes_please">Poinformuj</string>
+    <string name="thank_you_well_try_to">
+        Dziękujemy!\n\n
+        Postaramy się dodać brakujący element niebawem!
+    </string>
 </resources>
