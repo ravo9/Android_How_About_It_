@@ -68,7 +68,7 @@ class DetailedViewFragment : BasicFragment() {
                 additionalInformationText += "✔"
                 additionalInformationText += "  "
                 additionalInformationText += phrase
-                additionalInformationText += "\n"
+                additionalInformationText += "\n\n"
             }
             detailed_item_view_additional_info.text = additionalInformationText
         }

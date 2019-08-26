@@ -82,8 +82,8 @@
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="30dp"
-                        android:textSize="18sp"
-                        android:letterSpacing="0.06"
+                        android:textSize="17sp"
+                        android:letterSpacing="0.04"
                         android:textAllCaps="true"/>
 
                 <TextView

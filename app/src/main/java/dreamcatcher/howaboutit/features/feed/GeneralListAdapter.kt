@@ -153,12 +153,6 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
                     clickListener(itemId)
                 }
 
-                // Order the image in smaller size to provide fluent loading.
-                //imageLink += "?auto=compress&cs=tinysrgb&dpr=1&h=300&w=300"
-
-                // REMOVE
-                //imageLink = "https://i.imgur.com/k41tQkY.jpg"
-
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {
                     Picasso.get().load(imageLink).into(view.thumbnail)
