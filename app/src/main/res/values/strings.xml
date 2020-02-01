@@ -6,6 +6,8 @@
 
     <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.howaboutit</string>
 
+    <string name="facebook_address" translatable="false">https://www.facebook.com/wyrzuctoapp</string>
+
     <string name="privacy_policy_address">https://docs.google.com/document/d/1B78TvABuGG5Z68sBFm6ff9eDcceemzXHqXHDce0WDCI/edit?usp=sharing</string>
 
     <string name="privacy_policy_link">Privacy Policy (link)</string>
@@ -72,7 +74,7 @@
 
     <string name="yes_please">Yes, please</string>
 
-    <string name="footer">Bin Assistant ® 2019</string>
+    <string name="footer">Bin Assistant ® 2020</string>
 
     <!-- Analytics events names -->
 
@@ -81,5 +83,11 @@
     <string name="analytics_event_items_database_error" translatable="false">items_database_error</string>
 
     <string name="analytics_event_protips_database_error" translatable="false">protips_database_error</string>
+
+    <!-- Notifications channels -->
+
+    <string name="default_notification_channel_id" translatable="false">default_notification_channel_id</string>
+
+    <string name="default_notification_channel_name" translatable="false">default_notification_channel_name</string>
 
 </resources>

@@ -9,13 +9,13 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "development.dreamcatcher.howaboutit"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 5
-        versionName "1.4"
+        targetSdkVersion 29
+        versionCode 6
+        versionName "1.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled false
     }
@@ -36,10 +36,10 @@ android {
 
 dependencies {
     def lifecycle_version = '1.1.1'
-    def androidx_appcompat_version = '1.1.0-rc01'
-    def androidx_core_version = '1.2.0-alpha03'
+    def androidx_appcompat_version = '1.2.0-alpha02'
+    def androidx_core_version = '1.3.0-alpha01'
     def androidx_constraint_layout_version = '1.1.3'
-    def room_version = '2.2.0-beta01'
+    def room_version = '2.2.3'
     def google_material_version = '1.0.0'
     def reactivex_rxjava_version = '2.2.0'
     def reactivex_rxandroid_version = '2.1.0'
@@ -47,11 +47,13 @@ dependencies {
     def gson_converter_version = '2.3.0'
     def gson_version = '2.8.2'
     def coroutines_version = '0.27.0-eap13'
-    def firebase_core_version = '17.1.0'
-    def firebase_analytics_version = '17.1.0'
+    def firebase_core_version = '17.2.2'
+    def firebase_analytics_version = '17.2.2'
     def firebase_crashlytics_version = '2.10.1'
-    def firebase_in_messages_version = '19.0.0'
+    def firebase_in_messages_version = '19.0.3'
+    def firebase_cloud_messaging_version = '20.1.0'
     def guava_version = '27.0.1-android'
+    def work_library_version = '1.0.1'
 
     // FileTree
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -61,7 +63,7 @@ dependencies {
 
     // Lifecycle components
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+    implementation "android.arch.lifecycle:common-java8:$lifecycle_version"
 
     // AndroidX
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
@@ -94,13 +96,13 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
 
     // Firebase core
     implementation "com.google.firebase:firebase-core:$firebase_core_version"
@@ -113,6 +115,12 @@ dependencies {
 
     // Firebase In-App Messaging
     implementation "com.google.firebase:firebase-inappmessaging-display:$firebase_in_messages_version"
+
+    // Firebase Cloud Messaging
+    implementation "com.google.firebase:firebase-messaging:$firebase_cloud_messaging_version"
+
+    // 'Work' library
+    implementation "android.arch.work:work-runtime:$work_library_version"
 
     // This is required by In-App Messaging to avoid "double dependency issue"
     implementation "com.google.guava:guava:$guava_version"

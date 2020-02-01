@@ -1,6 +1,9 @@
 package dreamcatcher.howaboutit.features.feed
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -20,7 +23,9 @@ import androidx.core.view.doOnLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
@@ -89,6 +94,9 @@ class FeedActivity : AppCompatActivity() {
 
         // Initialize "Yes please" button
         initializeYesPleaseButton()
+
+        // Initialize notifications service
+        initializeNotificationsService()
 
         // Check the user's language (to inform that the app's content is only available in Polish language)
         languageCheck()
@@ -450,6 +458,38 @@ class FeedActivity : AppCompatActivity() {
             bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, search_engine.text.toString())
             FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
         }
+    }
+
+    private fun initializeNotificationsService() {
+
+        // Get token (we need it for notifications testing)
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    //Log.w(TAG, "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new Instance ID token
+                val token = task.result?.token
+
+                // Log and toast
+                token?.let {
+                    Log.d("Token:", token)
+                }
+            })
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            val channelId = getString(R.string.default_notification_channel_id)
+            val channelName = getString(R.string.default_notification_channel_name)
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(
+                NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW)
+            )
+        }
+
     }
 
     private fun updateDisplayedItems() {
