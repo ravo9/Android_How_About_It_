@@ -28,6 +28,17 @@
             app:layout_constraintTop_toBottomOf="@id/spacing_top"
             app:layout_constraintBottom_toTopOf="@id/spacing_bottom">
 
+        <ImageButton
+                android:id="@+id/gradient"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginVertical="40dp"
+                android:layout_marginHorizontal="55dp"
+                android:background="@drawable/gradient_circle"/>
+
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -52,16 +63,16 @@
                             android:textSize="16sp"
                             android:letterSpacing="0.03"
                             android:textColor="@color/colorTextAlternative"
-                            android:visibility="invisible"
-                            tools:visibility="visible"/>
+                            android:visibility="invisible"/>
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/thumbnail"
                             android:layout_width="@dimen/detailed_view_image_length"
                             android:layout_height="@dimen/detailed_view_image_length"
                             android:layout_marginBottom="@dimen/grid_single_item_padding"
                             android:scaleType="centerCrop"
-                            android:layout_centerInParent="true"/>
+                            android:layout_centerInParent="true"
+                            tools:src="@drawable/thumbnail_placeholder"/>
 
                 </RelativeLayout>
 
@@ -73,7 +84,8 @@
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="30dp"
                         android:textSize="18sp"
-                        android:letterSpacing="0.05"/>
+                        android:letterSpacing="0.05"
+                        tools:text="Nazwa jakiegos gowna"/>
 
                 <TextView
                         android:id="@+id/detailed_item_view_recycling_steps"
@@ -84,7 +96,8 @@
                         android:layout_marginTop="30dp"
                         android:textSize="17sp"
                         android:letterSpacing="0.04"
-                        android:textAllCaps="true"/>
+                        android:textAllCaps="true"
+                        tools:text="ODPADY ZMIESZANE"/>
 
                 <TextView
                         android:id="@+id/detailed_item_view_additional_info"
@@ -92,7 +105,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
-                        android:layout_marginTop="40dp"/>
+                        android:layout_marginTop="40dp"
+                        tools:text="Dodatkowa informacja"/>
 
                 <include
                         layout="@layout/footer"
@@ -134,6 +148,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
