@@ -28,31 +28,22 @@
             app:layout_constraintTop_toBottomOf="@id/spacing_top"
             app:layout_constraintBottom_toTopOf="@id/spacing_bottom">
 
-        <ImageButton
-                android:id="@+id/gradient"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginVertical="40dp"
-                android:layout_marginHorizontal="55dp"
-                android:background="@drawable/gradient_circle"/>
-
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                 <RelativeLayout
                         android:id="@+id/thumbnail_container"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/detailed_view_image_length"
-                        android:layout_marginTop="70dp">
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="50dp"
+                        android:layout_marginBottom="@dimen/grid_single_item_padding">
 
                     <TextView
                             android:id="@+id/picture_placeholder_text"
@@ -65,13 +56,21 @@
                             android:textColor="@color/colorTextAlternative"
                             android:visibility="invisible"/>
 
+                    <ImageButton
+                            android:id="@+id/gradient"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/gradient_circle"/>
+
                     <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/thumbnail"
                             android:layout_width="@dimen/detailed_view_image_length"
                             android:layout_height="@dimen/detailed_view_image_length"
-                            android:layout_marginBottom="@dimen/grid_single_item_padding"
                             android:scaleType="centerCrop"
                             android:layout_centerInParent="true"
+                            app:civ_border_width="1dp"
+                            app:civ_border_overlay="true"
+                            app:civ_border_color="#19FD93"
                             tools:src="@drawable/thumbnail_placeholder"/>
 
                 </RelativeLayout>
@@ -80,9 +79,9 @@
                         android:id="@+id/detailed_item_view_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/thumbnail_container"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
-                        android:layout_marginTop="30dp"
                         android:textSize="18sp"
                         android:letterSpacing="0.05"
                         tools:text="Nazwa jakiegos gowna"/>
@@ -91,6 +90,7 @@
                         android:id="@+id/detailed_item_view_recycling_steps"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/detailed_item_view_name"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="30dp"
@@ -103,6 +103,7 @@
                         android:id="@+id/detailed_item_view_additional_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/detailed_item_view_recycling_steps"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="40dp"
@@ -111,9 +112,10 @@
                 <include
                         layout="@layout/footer"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/detailed_item_view_additional_info"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
