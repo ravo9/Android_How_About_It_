@@ -286,7 +286,8 @@ class FeedActivity : AppCompatActivity() {
 
                     // Display fetched items (using adapter)
                     allItemsList.clear()
-                    allItemsList.addAll(it)
+                    // Mix the items to avoid the same order on every app launch.
+                    allItemsList.addAll(it.shuffled())
                     itemsFetchedSuccessfullyFlag = true
                     sendItemsAndProtipsToAdapter()
                 }
