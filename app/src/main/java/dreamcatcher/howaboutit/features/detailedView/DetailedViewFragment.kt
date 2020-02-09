@@ -1,6 +1,8 @@
 package dreamcatcher.howaboutit.features.detailedView
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.features.basic.BasicFragment
 import kotlinx.android.synthetic.main.detailed_item_view.*
+
 
 // Detailed view for displaying chosen item
 class DetailedViewFragment : BasicFragment() {
@@ -81,6 +84,39 @@ class DetailedViewFragment : BasicFragment() {
             Log.e("Exception", e.message);
         }
 
+        // Load gradient color
+        when (item.binType) {
+
+            "Zielony pojemnik na szkło" -> {
+                resources.getColor(R.color.colorGradientGreen).let {
+                    setGradientBackgroundToTheThumbnail(it)
+                }
+            }
+
+            "Niebieski pojemnik na papier" -> {
+                resources.getColor(R.color.colorGradientBlue).let {
+                    setGradientBackgroundToTheThumbnail(it)
+                }
+            }
+
+            "Czarny pojemnik na odpady zmieszane" -> {
+                resources.getColor(R.color.colorGradientBlack).let {
+                    setGradientBackgroundToTheThumbnail(it)
+                }
+            }
+
+            "Brązowy pojemnik na odpady BIO" -> {
+                resources.getColor(R.color.colorGradientBrown).let {
+                    setGradientBackgroundToTheThumbnail(it)
+                }
+            }
+
+            "Żółty pojemnik na metale i tworzywa sztuczne" -> {
+                resources.getColor(R.color.colorGradientYellow).let {
+                    setGradientBackgroundToTheThumbnail(it)
+                }
+            }
+        }
         showLoadingView(false)
     }
 
@@ -90,5 +126,23 @@ class DetailedViewFragment : BasicFragment() {
         } else {
             progressBar.visibility = View.GONE
         }
+    }
+
+    private fun setGradientBackgroundToTheThumbnail(colour: Int) {
+
+        val displayMetrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        val screenWidth = displayMetrics.widthPixels
+
+        val gradientDrawable = GradientDrawable()
+        gradientDrawable.gradientType = GradientDrawable.RADIAL_GRADIENT
+        gradientDrawable.colors = intArrayOf(colour, resources.getColor(R.color.colorBackground))
+        gradientDrawable.gradientRadius = (screenWidth * 0.42).toFloat()
+        gradient.setBackgroundDrawable(gradientDrawable)
+        gradient.visibility = View.VISIBLE
+
+        thumbnail.borderColor = colour
+        thumbnail.borderWidth = 4
+        //thumbnail.isBorderOverlay = true
     }
 }
