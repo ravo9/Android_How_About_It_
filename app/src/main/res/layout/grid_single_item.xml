@@ -27,13 +27,19 @@
                 android:letterSpacing="0.03"
                 android:textColor="@color/colorTextAlternative"/>
 
-        <ImageView
-                android:id="@+id/thumbnail"
+        <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/grid_single_item_padding"
-                android:scaleType="centerCrop"
-                tools:ignore="MissingConstraints"/>
+                app:cardCornerRadius="2dp"
+                android:layout_marginBottom="@dimen/grid_single_item_padding">
+
+            <ImageView
+                    android:id="@+id/thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
