@@ -63,13 +63,21 @@
                             android:textColor="@color/colorTextAlternative"
                             android:visibility="invisible"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/thumbnail"
+                    <androidx.cardview.widget.CardView
+                            android:id="@+id/thumbnail_frame_round_corners"
                             android:layout_width="@dimen/detailed_view_image_length"
                             android:layout_height="@dimen/detailed_view_image_length"
-                            android:scaleType="centerCrop"
                             android:layout_centerInParent="true"
-                            tools:src="@drawable/thumbnail_placeholder"/>
+                            app:cardCornerRadius="10dp">
+
+                        <ImageView
+                                android:id="@+id/thumbnail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                tools:src="@drawable/thumbnail_placeholder"/>
+
+                    </androidx.cardview.widget.CardView>
 
                 </RelativeLayout>
 
@@ -84,24 +92,42 @@
                         android:letterSpacing="0.05"
                         tools:text="Nazwa jakiegos gowna"/>
 
-                <TextView
-                        android:id="@+id/detailed_item_view_recycling_steps"
+                <RelativeLayout
+                        android:id="@+id/detailed_item_view_recycling_steps_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/detailed_item_view_name"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
-                        android:layout_marginTop="30dp"
-                        android:textSize="17sp"
-                        android:letterSpacing="0.04"
-                        android:textAllCaps="true"
-                        tools:text="ODPADY ZMIESZANE"/>
+                        android:layout_marginTop="30dp">
+
+                    <androidx.cardview.widget.CardView
+                            android:id="@+id/color_indicator"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardBackgroundColor="@color/browser_actions_divider_color"
+                            app:cardCornerRadius="10dp">
+
+                        <TextView
+                                android:id="@+id/detailed_item_view_recycling_steps"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:textSize="17sp"
+                                android:textColor="#FFF"
+                                android:letterSpacing="0.04"
+                                android:textAllCaps="true"
+                                tools:text="ODPADY ZMIESZANE"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
 
                 <TextView
                         android:id="@+id/detailed_item_view_additional_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/detailed_item_view_recycling_steps"
+                        app:layout_constraintTop_toBottomOf="@id/detailed_item_view_recycling_steps_container"
                         android:layout_marginStart="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginEnd="@dimen/detailed_view_vertical_side_spacing"
                         android:layout_marginTop="40dp"

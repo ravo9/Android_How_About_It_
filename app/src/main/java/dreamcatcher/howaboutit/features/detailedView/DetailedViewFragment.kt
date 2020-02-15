@@ -131,15 +131,18 @@ class DetailedViewFragment : BasicFragment() {
     private fun setGradientBackgroundToTheThumbnail(colour: Int) {
 
         val gradientDrawable = GradientDrawable()
-        gradientDrawable.gradientType = GradientDrawable.RADIAL_GRADIENT
+        gradientDrawable.gradientType = GradientDrawable.LINEAR_GRADIENT
+        gradientDrawable.orientation = GradientDrawable.Orientation.TOP_BOTTOM
         gradientDrawable.colors = intArrayOf(colour, resources.getColor(R.color.colorBackground))
-        gradientDrawable.gradientRadius = (getScreenWidth() * 0.42).toFloat()
-        gradient.setBackgroundDrawable(gradientDrawable)
-        gradient.visibility = View.VISIBLE
+        gradientDrawable.gradientRadius = (getScreenWidth() * 0.52).toFloat()
+        //gradient.setBackgroundDrawable(gradientDrawable)
+        //gradient.visibility = View.VISIBLE
 
-        thumbnail.borderColor = colour
-        thumbnail.borderWidth = 4
-        thumbnail.isBorderOverlay = true
+        color_indicator.setCardBackgroundColor(colour)
+
+        //thumbnail.borderColor = colour
+        //thumbnail.borderWidth = 4
+        //thumbnail.isBorderOverlay = true
     }
 
     private fun getScreenWidth(): Int {

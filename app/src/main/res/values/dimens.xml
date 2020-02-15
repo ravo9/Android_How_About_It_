@@ -16,7 +16,7 @@
     <dimen name="detailed_view_vertical_side_spacing">35dp</dimen>
     <dimen name="detailed_view_cross_button_length">25dp</dimen>
     <dimen name="detailed_view_cross_button_margin">20dp</dimen>
-    <dimen name="detailed_view_image_length">230dp</dimen>
+    <dimen name="detailed_view_image_length">250dp</dimen>
 
     <dimen name="elevation_first_floor">2dp</dimen>
     <dimen name="elevation_second_floor">20dp</dimen>
