@@ -10,10 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
+import android.view.animation.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -35,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
 import kotlinx.android.synthetic.main.no_results_view.*
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 
@@ -417,6 +414,12 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun initializeAppInfoButton() {
+
+        val rotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+        rotateAnimation.duration = 2500
+        rotateAnimation.interpolator = DecelerateInterpolator()
+        rotateAnimation.repeatCount = Animation.INFINITE
+        app_info_button.startAnimation(rotateAnimation)
 
         app_info_button.setOnClickListener {
 

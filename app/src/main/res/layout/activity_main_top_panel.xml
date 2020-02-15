@@ -17,15 +17,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/app_info_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_margin="15dp"
                 android:src="@mipmap/ic_launcher"
                 android:scaleType="centerCrop"
                 android:background="@null"
-                android:layout_gravity="end"
-                android:layout_margin="15dp"/>
+                android:elevation="@dimen/elevation_first_floor"/>
 
         <TextView
                 android:layout_width="match_parent"
