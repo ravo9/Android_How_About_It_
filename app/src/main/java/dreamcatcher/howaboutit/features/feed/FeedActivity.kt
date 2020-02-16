@@ -32,8 +32,9 @@ import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
 import kotlinx.android.synthetic.main.activity_main_top_panel.*
 import kotlinx.android.synthetic.main.loading_badge.*
 import kotlinx.android.synthetic.main.no_results_view.*
-import java.util.Locale
+import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 // Main items feed) view
@@ -121,10 +122,30 @@ class FeedActivity : AppCompatActivity() {
 
         itemsToDisplay.clear()
 
-        // Check if the name of each element contains searched phrase. If not - remove this element.
-        allItemsList.forEach {
-            if (tagsContainSearchedPhrase(it, phrase)) {
+        // Case when we have searched for sth and we remove input (we want to see all items again).
+        if (phrase == "") {
+            allItemsList.forEach {
                 itemsToDisplay.add(it)
+            }
+        } else {
+            val matchesRanking = ArrayList<Pair<Int, ItemEntity>>()
+            allItemsList.forEach {
+                //itemsToDisplay.add(it)
+                val matchedTags = tagsContainingSearchedPhrase(it, phrase)
+                if (matchedTags > 0) {
+                    matchesRanking.add(Pair(matchedTags, it))
+                }
+            }
+            // Sort the elements to display those items that math most tags.
+            matchesRanking.sortByDescending { it.first }
+            var mostMatchedTags = 0
+            if (matchesRanking.isNotEmpty()) {
+                mostMatchedTags = matchesRanking.get(0).first
+                matchesRanking.forEach {
+                    if (it.first == mostMatchedTags) {
+                        itemsToDisplay.add(it.second)
+                    }
+                }
             }
         }
 
@@ -144,15 +165,16 @@ class FeedActivity : AppCompatActivity() {
         }*/
     }
 
-    private fun tagsContainSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
+    private fun tagsContainingSearchedPhrase(itemEntity: ItemEntity, phrase: String): Int {
         val editedPhrase = normalizePolishCharacters(phrase.toLowerCase())
+        var tagsMatched = 0
         itemEntity.tags.forEach {
             val editedTag = normalizePolishCharacters(it.toLowerCase())
             if (editedPhrase.contains(editedTag)) {
-                return true
+                tagsMatched++
             }
         }
-        return false
+        return tagsMatched
     }
 
     private fun normalizePolishCharacters(input: String): String {
@@ -218,7 +240,7 @@ class FeedActivity : AppCompatActivity() {
 
         hideNoResultsAndThankYouViews()
 
-        if (!search_engine.text.toString().equals(mostRecentSearchPhrase)) {
+        if (!isItTheSameSearchAsCurrentlyDisplayed()) {
             mostRecentSearchPhrase = search_engine.text.toString()
             filterResultsToDisplay(mostRecentSearchPhrase)
 
@@ -235,6 +257,10 @@ class FeedActivity : AppCompatActivity() {
         }
 
         hideKeyboard()
+    }
+
+    private fun isItTheSameSearchAsCurrentlyDisplayed(): Boolean {
+        return (search_engine.text.toString().equals(mostRecentSearchPhrase))
     }
 
     private fun setupRecyclerView() {
