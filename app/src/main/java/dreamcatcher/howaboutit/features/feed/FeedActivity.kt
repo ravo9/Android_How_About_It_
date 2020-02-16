@@ -123,7 +123,7 @@ class FeedActivity : AppCompatActivity() {
 
         // Check if the name of each element contains searched phrase. If not - remove this element.
         allItemsList.forEach {
-            if (nameContainsSearchedPhrase(it, phrase) || tagsContainSearchedPhrase(it, phrase)) {
+            if (tagsContainSearchedPhrase(it, phrase)) {
                 itemsToDisplay.add(it)
             }
         }
@@ -144,17 +144,36 @@ class FeedActivity : AppCompatActivity() {
         }*/
     }
 
-    private fun nameContainsSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
-        return (itemEntity.name.toLowerCase().contains(phrase.toLowerCase()))
-    }
-
     private fun tagsContainSearchedPhrase(itemEntity: ItemEntity, phrase: String): Boolean {
+        val editedPhrase = normalizePolishCharacters(phrase.toLowerCase())
         itemEntity.tags.forEach {
-            if (it.toLowerCase().contains(phrase.toLowerCase())) {
+            val editedTag = normalizePolishCharacters(it.toLowerCase())
+            if (editedPhrase.contains(editedTag)) {
                 return true
             }
         }
         return false
+    }
+
+    private fun normalizePolishCharacters(input: String): String {
+        var output = ""
+        input.map {
+            when (it) {
+                'ą' -> "a"
+                'ć' -> "c"
+                'ę' -> "e"
+                'ł' -> "l"
+                'ń' -> "n"
+                'ó' -> "o"
+                'ś' -> "s"
+                'ż' -> "z"
+                'ź' -> "z"
+                else -> it
+            }.let {
+                output += it
+            }
+        }
+        return output
     }
 
     private fun initializeSearchEngine() {
@@ -162,10 +181,6 @@ class FeedActivity : AppCompatActivity() {
         search_engine.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {
-
-                /*handler.post{
-                    filterResultsToDisplay(p0.toString())
-                }*/
 
                 if (p0.toString().equals("")) {
                     handler.post {
