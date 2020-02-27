@@ -307,11 +307,18 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun subscribeForNetworkError() {
-        viewModel.getNetworkError()?.observe(this, Observer<Boolean> {
+        viewModel.getNetworkError()?.observe(this, Observer<String> {
+
             Handler().postDelayed({
                 displayNetworkProblemMessage()
                 retryConnection()
             }, 600)
+
+            // Analytics event logging.
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.VALUE, it)
+            // Temporary event name.
+            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, bundle)
         })
     }
 

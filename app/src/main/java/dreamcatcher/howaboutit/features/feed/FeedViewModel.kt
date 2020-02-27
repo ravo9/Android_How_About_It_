@@ -28,7 +28,7 @@ class FeedViewModel : ViewModel() {
         return protipsRepository.getAllProtips()
     }
 
-    fun getNetworkError(): LiveData<Boolean>? {
+    fun getNetworkError(): LiveData<String>? {
         return itemsRepository.getNetworkError()
     }
 }

@@ -84,6 +84,8 @@
 
     <string name="analytics_event_protips_database_error" translatable="false">protips_database_error</string>
 
+    <string name="analytics_event_fake_network_error" translatable="false">fake_network_error</string>
+
     <!-- Notifications channels -->
 
     <string name="default_notification_channel_id" translatable="false">default_notification_channel_id</string>

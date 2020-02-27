@@ -25,7 +25,7 @@ class ItemsRepository () {
         return databaseInteractor.getAllItems()
     }
 
-    fun getNetworkError(): LiveData<Boolean>? {
+    fun getNetworkError(): LiveData<String>? {
         return networkInteractor.networkError
     }
 

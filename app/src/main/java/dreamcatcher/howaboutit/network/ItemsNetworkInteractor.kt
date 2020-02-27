@@ -11,7 +11,7 @@ import io.reactivex.subjects.SingleSubject
 class ItemsNetworkInteractor {
 
     private val apiClient = NetworkAdapter.apiClient()
-    val networkError: MutableLiveData<Boolean> = MutableLiveData()
+    val networkError: MutableLiveData<String> = MutableLiveData()
 
     fun getAllItems(): Observable<Result<List<ItemPojo>>> {
         val allItemsSubject = SingleSubject.create<Result<List<ItemPojo>>>()
@@ -29,8 +29,12 @@ class ItemsNetworkInteractor {
                     }
                 },
                 {
-                    networkError.postValue(true)
-                    Log.e("getItems() error: ", it.message)
+                    var errorMessage = "Unknown Error"
+                    it.message?.let {
+                        errorMessage = it
+                    }
+                    networkError.postValue(errorMessage)
+                    Log.e("getItems() error: ", errorMessage)
                 })
 
         return allItemsSubject.toObservable()
@@ -52,8 +56,12 @@ class ItemsNetworkInteractor {
                     }
                 },
                 {
-                    networkError.postValue(true)
-                    Log.e("getItems() error: ", it.message)
+                    var errorMessage = "Unknown Error"
+                    it.message?.let {
+                        errorMessage = it
+                    }
+                    networkError.postValue(errorMessage)
+                    Log.e("getItems() error: ", errorMessage)
                 })
 
         return allProtipsSubject.toObservable()
