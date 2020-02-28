@@ -170,7 +170,7 @@ class FeedActivity : AppCompatActivity() {
         var tagsMatched = 0
         itemEntity.tags.forEach {
             val editedTag = normalizePolishCharacters(it.toLowerCase())
-            if (editedPhrase.contains(editedTag)) {
+            if (editedPhrase.contains(editedTag) || editedTag.contains(editedPhrase)) {
                 tagsMatched++
             }
         }
@@ -377,16 +377,6 @@ class FeedActivity : AppCompatActivity() {
                 //Log.e("Exception", e.message);
             }
         }
-    }
-
-    private fun setRecyclerViewHeightProgramatically(itemsAmount: Int) {
-        val params = general_recyclerview.getLayoutParams()
-        val rowHeight = 130
-        val rowWithProtipHeight = 300
-        var height = ((itemsAmount / 4) * rowHeight + (itemsAmount / 4) * rowWithProtipHeight)
-        if (itemsAmount%4 == 1  || itemsAmount%4 == 2) height += rowHeight
-        if (itemsAmount%4 == 3) height += rowWithProtipHeight
-        params.height = height
     }
 
     private fun displayNetworkProblemMessage() {
