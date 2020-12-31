@@ -4,7 +4,9 @@
 
     <string name="app_email" translatable="false">wyrzuctoapp@email.com</string>
 
-    <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.howaboutit</string>
+    <string name="google_play_address" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.howaboutit&amp;hl=pl</string>
+
+    <string name="google_play_address_pro_version" translatable="false">https://play.google.com/store/apps/details?id=development.dreamcatcher.binassistantpro&amp;hl=pl</string>
 
     <string name="facebook_address" translatable="false">https://www.facebook.com/wyrzuctoapp</string>
 
@@ -75,6 +77,33 @@
     <string name="yes_please">Yes, please</string>
 
     <string name="footer">Bin Assistant ® 2020</string>
+
+    <!--    It actually should be translated in perfect world-->
+    <string name="app_lock_title" translatable="false">Droga użytkowniczko, drogi użytkowniku</string>
+
+    <!--    It actually should be translated in perfect world-->
+    <string name="app_lock_text" translatable="false">
+
+        ‘Wyrzuć To’ jest projektem, który mamy zaszczyt Tworzyć dla Was oraz dla dobra naszego naturalnego środowiska.\n\n
+
+        Niestety niesie to za sobą pewne koszty, których nie chcemy rekompensować poprzez umieszczanie w aplikacji reklam.\n\n
+
+        Z tego powodu darmowa wersja aplikacji przestanie działać 10-go stycznia 2021, jednak zastąpi ją wersja ‘Wyrzuć To Pro’, która kosztować będzie trochę mniej niż kawa w Starbucksie, to znaczy 10 zł.\n\n
+
+        Ta kwota pozwoli nam utrzymać oraz nadal rozwijać aplikację.\n\n
+
+        Jeśli chcesz możesz pobrać ją już dziś, klikając w przycisk poniżej!\n\n
+
+        Dziękujemy, jeśli doceniasz naszą pracę. Postaramy się wykonywać ją jeszcze lepiej!\n\n
+
+        Pozdrawiamy,\n
+        Zespół ‘Wyrzuć To’
+
+    </string>
+
+    <string name="download_pro_version">Download Pro Version</string>
+
+    <string name="close">Close</string>
 
     <!-- Analytics events names -->
 

@@ -51,4 +51,6 @@
         Dziękujemy!\n\n
         Postaramy się dodać brakujący element niebawem!
     </string>
+    <string name="download_pro_version">Pobierz wersję Pro</string>
+    <string name="close">Zamknij</string>
 </resources>

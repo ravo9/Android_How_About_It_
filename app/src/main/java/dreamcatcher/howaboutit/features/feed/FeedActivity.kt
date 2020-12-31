@@ -26,6 +26,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
+import dreamcatcher.howaboutit.features.appInfoView.AppAboutToBeDeprecatedView
 import dreamcatcher.howaboutit.features.appInfoView.AppInfoViewFragment
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
 import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
@@ -34,7 +35,6 @@ import kotlinx.android.synthetic.main.loading_badge.*
 import kotlinx.android.synthetic.main.no_results_view.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 // Main items feed) view
@@ -98,6 +98,9 @@ class FeedActivity : AppCompatActivity() {
 
         // Check the user's language (to inform that the app's content is only available in Polish language)
         languageCheck()
+
+        // Lock the free app version
+        lockTheApp()
     }
 
     override fun onResume() {
@@ -449,6 +452,14 @@ class FeedActivity : AppCompatActivity() {
         if (Locale.getDefault().getDisplayLanguage() != "polski") {
             alertDialog.show()
         }
+    }
+
+    private fun lockTheApp() {
+        val fragment = AppAboutToBeDeprecatedView()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.main_content_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun initializeAppInfoButton() {
