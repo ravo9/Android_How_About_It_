@@ -76,7 +76,7 @@
 
     <string name="yes_please">Yes, please</string>
 
-    <string name="footer">Bin Assistant ® 2020</string>
+    <string name="footer">Bin Assistant 2020</string>
 
     <!--    It actually should be translated in perfect world-->
     <string name="app_lock_title" translatable="false">Droga użytkowniczko, drogi użytkowniku</string>
