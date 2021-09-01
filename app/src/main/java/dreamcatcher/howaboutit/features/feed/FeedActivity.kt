@@ -100,7 +100,7 @@ class FeedActivity : AppCompatActivity() {
         languageCheck()
 
         // Lock the free app version
-        lockTheApp()
+//        lockTheApp()
     }
 
     override fun onResume() {
