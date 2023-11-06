@@ -6,6 +6,7 @@ import dreamcatcher.howaboutit.general.HowAboutItApp
 import dreamcatcher.howaboutit.network.ItemPojo
 import io.reactivex.Observable
 import io.reactivex.subjects.SingleSubject
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 // Interactor used for communication between data repository and internal database
@@ -33,7 +34,7 @@ class ItemsDatabaseInteractor() {
 
         val dataUpdateFinishedStatus = SingleSubject.create<Result<Boolean>>()
 
-        launch {
+        GlobalScope.launch {
             itemsDatabase?.getItemsDao()?.clearDatabase().also {
                 itemsSet.forEach {
                     val itemEntity = ItemEntity(

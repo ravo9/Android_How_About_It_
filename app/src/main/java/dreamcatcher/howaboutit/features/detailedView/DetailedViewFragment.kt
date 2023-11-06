@@ -5,26 +5,49 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
+import dreamcatcher.howaboutit.databinding.DetailedItemViewBinding
 import dreamcatcher.howaboutit.features.basic.BasicFragment
-import kotlinx.android.synthetic.main.detailed_item_view.*
 
 // Detailed view for displaying chosen item
 class DetailedViewFragment : BasicFragment() {
 
     private lateinit var viewModel: DetailedViewViewModel
 
+    private lateinit var binding: DetailedItemViewBinding
+    private lateinit var btnCross: ImageButton
+    private lateinit var spacingTop: RelativeLayout
+    private lateinit var spacingBottom: RelativeLayout
+    private lateinit var detailedItemViewName: TextView
+    private lateinit var detailedItemViewRecyclingSteps: TextView
+    private lateinit var detailedItemViewAdditionalInfo: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var picturePlaceholderText: TextView
+    private lateinit var thumbnail: ImageView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // Initialize ViewModel
         viewModel = ViewModelProviders.of(this).get(DetailedViewViewModel::class.java)
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.detailed_item_view, container, false)
+        binding = DetailedItemViewBinding.inflate(inflater, container, false)
+        btnCross = binding.btnCross
+        spacingTop = binding.spacingTop
+        spacingBottom = binding.spacingBottom
+        detailedItemViewName = binding.detailedItemViewName
+        detailedItemViewRecyclingSteps = binding.detailedItemViewRecyclingSteps
+        detailedItemViewAdditionalInfo = binding.detailedItemViewAdditionalInfo
+        progressBar = binding.progressBar
+        picturePlaceholderText = binding.picturePlaceholderText
+        thumbnail = binding.thumbnail
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -35,19 +58,19 @@ class DetailedViewFragment : BasicFragment() {
 
         // Setup Cross Button
         val closingOnClickListener = View.OnClickListener{ activity?.onBackPressed() }
-        btn_cross.setOnClickListener(closingOnClickListener)
+        btnCross.setOnClickListener(closingOnClickListener)
 
         // Setup closing on the grey fields' click
-        spacing_top.setOnClickListener(closingOnClickListener)
-        spacing_bottom.setOnClickListener(closingOnClickListener)
+        spacingTop.setOnClickListener(closingOnClickListener)
+        spacingBottom.setOnClickListener(closingOnClickListener)
     }
 
     private fun subscribeForItem() {
         val itemId = this.arguments?.getString("itemId")
         if (!itemId.isNullOrEmpty()) {
-            viewModel.getSingleSavedItemById(itemId)?.observe(this, Observer<ItemEntity> {
+            viewModel.getSingleSavedItemById(itemId)?.observe(viewLifecycleOwner) {
                 setupDetailedView(it)
-            })
+            }
         }
     }
 
@@ -55,10 +78,10 @@ class DetailedViewFragment : BasicFragment() {
     private fun setupDetailedView(item: ItemEntity) {
 
         // Set item's name
-        detailed_item_view_name.text = item.name
+        detailedItemViewName.text = item.name
 
         // Set bin type's text
-        detailed_item_view_recycling_steps.text = item.binType
+        detailedItemViewRecyclingSteps.text = item.binType
 
         // Set "additional information" to display
         if (item.additionalInformation != null) {
@@ -70,25 +93,24 @@ class DetailedViewFragment : BasicFragment() {
                 additionalInformationText += phrase
                 additionalInformationText += "\n\n"
             }
-            detailed_item_view_additional_info.text = additionalInformationText
+            detailedItemViewAdditionalInfo.text = additionalInformationText
         }
 
         // Load thumbnail
         val imageUrl = item.imageLink
-        try { Glide.with(context!!).load(imageUrl).into(thumbnail); }
+        try { Glide.with(requireContext()).load(imageUrl).into(thumbnail); }
         catch (e: Exception) {
-            picture_placeholder_text.visibility = View.VISIBLE
-            Log.e("Exception", e.message);
+            picturePlaceholderText.visibility = View.VISIBLE
+            val exceptionMessage = e.message ?: "No exception message"
+            Log.e("Exception", exceptionMessage)
         }
 
         showLoadingView(false)
     }
 
-    private fun showLoadingView(loadingState: Boolean) {
-        if (loadingState) {
-            progressBar.visibility = View.VISIBLE
-        } else {
-            progressBar.visibility = View.GONE
-        }
+    private fun showLoadingView(loadingState: Boolean) = if (loadingState) {
+        progressBar.visibility = View.VISIBLE
+    } else {
+        progressBar.visibility = View.GONE
     }
 }

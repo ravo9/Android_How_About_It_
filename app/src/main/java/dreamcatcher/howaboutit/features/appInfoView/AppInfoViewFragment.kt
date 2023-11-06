@@ -8,16 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.analytics.FirebaseAnalytics
 import dreamcatcher.howaboutit.R
+import dreamcatcher.howaboutit.databinding.AppAboutToBeDeprecatedViewBinding
+import dreamcatcher.howaboutit.databinding.AppInfoViewBinding
 import dreamcatcher.howaboutit.features.basic.BasicFragment
-import kotlinx.android.synthetic.main.app_info_view.*
 
 // A view displaying contact and general app information
 class AppInfoViewFragment : BasicFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var binding: AppInfoViewBinding
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.app_info_view, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = AppInfoViewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -25,14 +27,14 @@ class AppInfoViewFragment : BasicFragment() {
 
         // Setup Cross Button
         val closingOnClickListener = View.OnClickListener{ activity?.onBackPressed() }
-        btn_cross.setOnClickListener(closingOnClickListener)
+        binding.btnCross.setOnClickListener(closingOnClickListener)
 
         // Setup closing on the grey fields' click
-        spacing_top.setOnClickListener(closingOnClickListener)
-        spacing_bottom.setOnClickListener(closingOnClickListener)
+        binding.spacingTop.setOnClickListener(closingOnClickListener)
+        binding.spacingBottom.setOnClickListener(closingOnClickListener)
 
         // Setup rating bar (stars) click listener
-        ratingBar.setOnRatingBarChangeListener { _, _, _ ->
+        binding.ratingBar.setOnRatingBarChangeListener { _, _, _ ->
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.google_play_address)))
             startActivity(browserIntent)
 
@@ -44,7 +46,7 @@ class AppInfoViewFragment : BasicFragment() {
         }
 
         // Setup Facebook button
-        btn_facebook.setOnClickListener{
+        binding.btnFacebook.setOnClickListener{
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.facebook_address)))
             startActivity(browserIntent)
 
@@ -56,7 +58,7 @@ class AppInfoViewFragment : BasicFragment() {
         }
 
         // Setup privacy policy click listener
-        privacyPolicyLink.setOnClickListener {
+        binding.privacyPolicyLink.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_address)))
             startActivity(browserIntent)
         }

@@ -30,6 +30,7 @@
                 android:orientation="vertical">
 
             <include
+                    android:id="@+id/main_top_panel"
                     layout="@layout/activity_main_top_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,6 +72,7 @@
                     android:visibility="gone">
 
                 <include
+                        android:id="@+id/no_results_view_container"
                         layout="@layout/no_results_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -109,6 +111,8 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/loading_badge"/>
+    <include
+            android:id="@+id/loading_container"
+            layout="@layout/loading_badge" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

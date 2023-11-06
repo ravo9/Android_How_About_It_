@@ -1,21 +1,29 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+//apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 android {
+    viewBinding {
+        enabled = true
+    }
     lintOptions {
         checkReleaseBuilds false
     }
-    compileSdkVersion 29
+    compileSdkVersion 33
     defaultConfig {
         applicationId "development.dreamcatcher.howaboutit"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 10
-        versionName "1.9"
+        targetSdkVersion 33
+        versionCode 11
+        versionName "1.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled false
     }
@@ -35,93 +43,72 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = '1.1.1'
-    def androidx_appcompat_version = '1.2.0-alpha02'
-    def androidx_core_version = '1.3.0-alpha01'
-    def androidx_constraint_layout_version = '1.1.3'
-    def room_version = '2.2.3'
-    def google_material_version = '1.0.0'
     def reactivex_rxjava_version = '2.2.0'
     def reactivex_rxandroid_version = '2.1.0'
     def retrofit_version = '2.4.0'
     def gson_converter_version = '2.3.0'
-    def gson_version = '2.8.2'
-    def coroutines_version = '0.27.0-eap13'
-    def firebase_core_version = '17.2.2'
-    def firebase_analytics_version = '17.2.2'
-    def firebase_crashlytics_version = '2.10.1'
-    def firebase_in_messages_version = '19.0.3'
-    def firebase_cloud_messaging_version = '20.1.0'
+//    def firebase_core_version = '17.2.2'
+//    def firebase_analytics_version = '17.2.2'
+//    def firebase_crashlytics_version = '2.10.1'
+//    def firebase_in_messages_version = '19.0.3'
+//    def firebase_cloud_messaging_version = '20.1.0'
     def guava_version = '27.0.1-android'
     def work_library_version = '1.0.1'
 
-    // FileTree
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Kotlin standard library
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    // Lifecycle components
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    implementation "android.arch.lifecycle:common-java8:$lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:common-java8:1.1.1"
 
-    // AndroidX
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-    implementation "androidx.core:core-ktx:$androidx_core_version"
-    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core-ktx:1.3.0-alpha01"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+    implementation "androidx.room:room-rxjava2:2.2.5"
 
-    // Google Material IO
-    implementation "com.google.android.material:material:$google_material_version"
+    implementation "com.google.android.material:material:1.0.0"
 
-    // RxJava
     implementation "io.reactivex.rxjava2:rxjava:$reactivex_rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$reactivex_rxandroid_version"
 
-    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
 
-    // GSON
-    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.google.code.gson:gson:2.9.0"
 
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
-    // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    // Firebase core
-    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+//    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+//
+//    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
 
-    // Firebase Analytics (recommended with Crashlytics)
-    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
+//    implementation "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics_version"
+//
+//    implementation "com.google.firebase:firebase-inappmessaging-display:$firebase_in_messages_version"
+//
+//    implementation "com.google.firebase:firebase-messaging:$firebase_cloud_messaging_version"
 
-    // Firebase Crashlytics
-    implementation "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics_version"
-
-    // Firebase In-App Messaging
-    implementation "com.google.firebase:firebase-inappmessaging-display:$firebase_in_messages_version"
-
-    // Firebase Cloud Messaging
-    implementation "com.google.firebase:firebase-messaging:$firebase_cloud_messaging_version"
-
-    // 'Work' library
     implementation "android.arch.work:work-runtime:$work_library_version"
 
     // This is required by In-App Messaging to avoid "double dependency issue"
     implementation "com.google.guava:guava:$guava_version"
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 }

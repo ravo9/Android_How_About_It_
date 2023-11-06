@@ -1,44 +1,48 @@
 package dreamcatcher.howaboutit.features.feed
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.animation.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.tasks.OnCompleteListener
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.iid.FirebaseInstanceId
+import de.hdodenhof.circleimageview.CircleImageView
 import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
+import dreamcatcher.howaboutit.databinding.ActivityMainCollapsingToolbarBinding
 import dreamcatcher.howaboutit.features.appInfoView.AppAboutToBeDeprecatedView
 import dreamcatcher.howaboutit.features.appInfoView.AppInfoViewFragment
 import dreamcatcher.howaboutit.features.detailedView.DetailedViewFragment
-import kotlinx.android.synthetic.main.activity_main_collapsing_toolbar.*
-import kotlinx.android.synthetic.main.activity_main_top_panel.*
-import kotlinx.android.synthetic.main.loading_badge.*
-import kotlinx.android.synthetic.main.no_results_view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 // Main items feed) view
 class FeedActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainCollapsingToolbarBinding
+    private lateinit var loadingContainer: ConstraintLayout
+    private lateinit var appInfoButton: CircleImageView
+    private lateinit var generalRecyclerView: RecyclerView
+    private lateinit var showMoreButton: Button
+    private lateinit var noResultsView: LinearLayout
+    private lateinit var yesPleaseButton: Button
+    private lateinit var thankYouView: LinearLayout
 
     private lateinit var viewModel: FeedViewModel
     private lateinit var generalListAdapter: GeneralListAdapter
@@ -61,7 +65,18 @@ class FeedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_collapsing_toolbar)
+
+        binding = ActivityMainCollapsingToolbarBinding.inflate(layoutInflater)
+        loadingContainer = binding.loadingContainer.loadingContainer
+        appInfoButton = binding.mainTopPanel.appInfoButton
+        generalRecyclerView = binding.generalRecyclerview
+        showMoreButton = binding.showMoreButton
+        noResultsView = binding.noResultsView
+        yesPleaseButton = binding.noResultsViewContainer.yesPleaseButton
+        thankYouView = binding.thankYouView
+
+        val view = binding.root
+        setContentView(view)
 
         // Setup progress bar animation
         animateProgressBar()
@@ -116,7 +131,7 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun resetSearchResults() {
-        search_engine.text.clear()
+        binding.mainTopPanel.searchEngine.text.clear()
         allowedItemsAmount = 24
         searchAction()
     }
@@ -203,7 +218,7 @@ class FeedActivity : AppCompatActivity() {
 
     private fun initializeSearchEngine() {
 
-        search_engine.addTextChangedListener(object : TextWatcher {
+        binding.mainTopPanel.searchEngine.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {
 
@@ -220,7 +235,7 @@ class FeedActivity : AppCompatActivity() {
         })
 
         // 'Enter' key on the keyboard
-        search_engine.setOnEditorActionListener { v, actionId, event ->
+        binding.mainTopPanel.searchEngine.setOnEditorActionListener { v, actionId, event ->
             if (actionId != EditorInfo.IME_ACTION_NONE && actionId != EditorInfo.IME_ACTION_PREVIOUS) {
                 searchAction()
                 true
@@ -230,7 +245,7 @@ class FeedActivity : AppCompatActivity() {
         }
 
         // 'Search' button
-        search_button.setOnClickListener{
+        binding.mainTopPanel.searchButton.setOnClickListener{
             searchAction()
         }
     }
@@ -239,23 +254,23 @@ class FeedActivity : AppCompatActivity() {
 
         allowedItemsAmount = 24
 
-        search_button.isEnabled = false
+        binding.mainTopPanel.searchButton.isEnabled = false
 
         hideNoResultsAndThankYouViews()
 
         if (!isItTheSameSearchAsCurrentlyDisplayed()) {
-            mostRecentSearchPhrase = search_engine.text.toString()
+            mostRecentSearchPhrase = binding.mainTopPanel.searchEngine.text.toString()
             filterResultsToDisplay(mostRecentSearchPhrase)
 
             // Button color change.
-            search_button.postDelayed({
-                search_button.isEnabled = true
+            binding.mainTopPanel.searchButton.postDelayed({
+                binding.mainTopPanel.searchButton.isEnabled = true
             }, 500)
         } else {
 
             // Button color change.
-            search_button.postDelayed({
-                search_button.isEnabled = true
+            binding.mainTopPanel.searchButton.postDelayed({
+                binding.mainTopPanel.searchButton.isEnabled = true
             }, 100)
         }
 
@@ -263,20 +278,16 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun isItTheSameSearchAsCurrentlyDisplayed(): Boolean {
-        return (search_engine.text.toString().equals(mostRecentSearchPhrase))
+        return (binding.mainTopPanel.searchEngine.text.toString().equals(mostRecentSearchPhrase))
     }
 
     private fun setupRecyclerView() {
-
-        general_recyclerview.setHasFixedSize(true)
-
+        generalRecyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
-        general_recyclerview.layoutManager = layoutManager
-
+        generalRecyclerView.layoutManager = layoutManager
         generalListAdapter = GeneralListAdapter{ itemId: String -> displayDetailedView(itemId) }
         generalListAdapter.setHasStableIds(true)
-
-        general_recyclerview.adapter = generalListAdapter
+        generalRecyclerView.adapter = generalListAdapter
     }
 
     private fun displayDetailedView(itemId: String) {
@@ -298,20 +309,14 @@ class FeedActivity : AppCompatActivity() {
 
     private fun updateAndLoadItems() {
         viewModel.updateItemsDatabaseWithServer()?.observe(this, Observer<Boolean> {
-
-            if (it == true) {
-                loadItemsFromDatabase()
-            }
+            if (it == true) loadItemsFromDatabase()
         })
     }
 
     // Before there was a delay implemented to keep the loading screen visible to the user (for few seconds).
     private fun updateAndLoadProtips() {
         viewModel.updateProtipsDatabaseWithServer()?.observe(this, Observer<Boolean> {
-
-            if (it == true) {
-                loadProtipsFromDatabase()
-            }
+            if (it == true) loadProtipsFromDatabase()
         })
     }
 
@@ -362,7 +367,7 @@ class FeedActivity : AppCompatActivity() {
             val bundle = Bundle()
             bundle.putString(FirebaseAnalytics.Param.VALUE, it)
             // Temporary event name.
-            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, bundle)
+//            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, bundle)
         })
     }
 
@@ -412,29 +417,29 @@ class FeedActivity : AppCompatActivity() {
     private fun showLoadingView(loadingState: Boolean) {
 
         if (loadingState) {
-            loading_container.visibility = View.VISIBLE
+            loadingContainer.visibility = View.VISIBLE
         } else {
             val fadeOutAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_out_animation)
             fadeOutAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(arg0: Animation) {}
                 override fun onAnimationRepeat(arg0: Animation) {}
                 override fun onAnimationEnd(arg0: Animation) {
-                    loading_container.visibility = View.GONE
+                    loadingContainer.visibility = View.GONE
                 }
             })
 
             // We add some delay to give images more time to be loaded properly.
-            /*loading_container.postDelayed({
-                loading_container.startAnimation(fadeOutAnimation)
+            /*loadingContainer.postDelayed({
+                loadingContainer.startAnimation(fadeOutAnimation)
             }, 1000)*/
 
-            loading_container.doOnLayout {
+            loadingContainer.doOnLayout {
 
                 // These settings allow user to interact with content before the animation is finished.
-                loading_container.isClickable = false
-                loading_container.isFocusable = false
+                loadingContainer.isClickable = false
+                loadingContainer.isFocusable = false
 
-                loading_container.startAnimation(fadeOutAnimation)
+                loadingContainer.startAnimation(fadeOutAnimation)
             }
         }
     }
@@ -468,9 +473,9 @@ class FeedActivity : AppCompatActivity() {
         rotateAnimation.duration = 2500
         rotateAnimation.interpolator = DecelerateInterpolator()
         rotateAnimation.repeatCount = Animation.INFINITE
-        app_info_button.startAnimation(rotateAnimation)
+        appInfoButton.startAnimation(rotateAnimation)
 
-        app_info_button.setOnClickListener {
+        appInfoButton.setOnClickListener {
 
             // Hide the keyboard just in case to avoid problems with the fragment view displaying
             // It would be better to have this in Fragment - because of encapsulation - but then it's not so fluent.
@@ -486,7 +491,7 @@ class FeedActivity : AppCompatActivity() {
 
     private fun initializeShowMoreButton() {
 
-        show_more_button.setOnClickListener {
+        showMoreButton.setOnClickListener {
 
             allowedItemsAmount += 24
 
@@ -500,15 +505,15 @@ class FeedActivity : AppCompatActivity() {
 
     private fun initializeYesPleaseButton() {
 
-        yes_please_button.setOnClickListener {
+        yesPleaseButton.setOnClickListener {
 
             // Update views' visibility.
-            no_results_view.visibility = View.GONE
-            thank_you_view.visibility = View.VISIBLE
+            noResultsView.visibility = View.GONE
+            thankYouView.visibility = View.VISIBLE
 
             // Analytics event logging.
             val bundle = Bundle()
-            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, search_engine.text.toString())
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, binding.mainTopPanel.searchEngine.text.toString())
             FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
         }
     }
@@ -516,32 +521,32 @@ class FeedActivity : AppCompatActivity() {
     private fun initializeNotificationsService() {
 
         // Get token (we need it for notifications testing)
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    //Log.w(TAG, "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
+//        FirebaseInstanceId.getInstance().instanceId
+//            .addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+//                    //Log.w(TAG, "getInstanceId failed", task.exception)
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new Instance ID token
+//                val token = task.result?.token
+//
+//                // Log and toast
+//                token?.let {
+//                    Log.d("Token:", token)
+//                }
+//            })
 
-                // Get new Instance ID token
-                val token = task.result?.token
-
-                // Log and toast
-                token?.let {
-                    Log.d("Token:", token)
-                }
-            })
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
-            val channelId = getString(R.string.default_notification_channel_id)
-            val channelName = getString(R.string.default_notification_channel_name)
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager?.createNotificationChannel(
-                NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW)
-            )
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            // Create channel to show notifications.
+//            val channelId = getString(R.string.default_notification_channel_id)
+//            val channelName = getString(R.string.default_notification_channel_name)
+//            val notificationManager = getSystemService(NotificationManager::class.java)
+//            notificationManager?.createNotificationChannel(
+//                NotificationChannel(channelId,
+//                    channelName, NotificationManager.IMPORTANCE_LOW)
+//            )
+//        }
 
     }
 
@@ -557,7 +562,7 @@ class FeedActivity : AppCompatActivity() {
             }
 
             // Check "No results" view displaying.
-            if (itemsToDisplay.size == 0) no_results_view.visibility = View.VISIBLE
+            if (itemsToDisplay.size == 0) noResultsView.visibility = View.VISIBLE
 
             // Hide the loading view
             showLoadingView(false)
@@ -567,13 +572,13 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun updateShowMoreButton() {
-        if (itemsToDisplay.size <= allowedItemsAmount) show_more_button.visibility = View.GONE
-        else show_more_button.visibility = View.VISIBLE
+        if (itemsToDisplay.size <= allowedItemsAmount) showMoreButton.visibility = View.GONE
+        else showMoreButton.visibility = View.VISIBLE
     }
 
     private fun hideNoResultsAndThankYouViews () {
-        no_results_view.visibility = View.GONE
-        thank_you_view.visibility = View.GONE
+        noResultsView.visibility = View.GONE
+        thankYouView.visibility = View.GONE
     }
 
     private fun animateProgressBar() {
@@ -581,6 +586,6 @@ class FeedActivity : AppCompatActivity() {
         rotateAnimation.duration = 800
         rotateAnimation.interpolator = LinearInterpolator()
         rotateAnimation.repeatCount = Animation.INFINITE
-        progressBar.startAnimation(rotateAnimation)
+        binding.loadingContainer.progressBar.startAnimation(rotateAnimation)
     }
 }

@@ -6,6 +6,7 @@ import dreamcatcher.howaboutit.general.HowAboutItApp
 import dreamcatcher.howaboutit.network.ProtipPojo
 import io.reactivex.Observable
 import io.reactivex.subjects.SingleSubject
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 // Interactor used for communication between data repository and internal database
@@ -29,7 +30,7 @@ class ProtipsDatabaseInteractor() {
 
         val dataUpdateFinishedStatus = SingleSubject.create<Result<Boolean>>()
 
-        launch {
+        GlobalScope.launch {
             protipsDatabase?.getProtipsDao()?.clearDatabase().also {
                 protipsSet.forEach {
                     val protipEntity = ProtipEntity(

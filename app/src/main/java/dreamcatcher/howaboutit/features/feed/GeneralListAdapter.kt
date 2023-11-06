@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import dreamcatcher.howaboutit.R
 import dreamcatcher.howaboutit.data.database.items.ItemEntity
 import dreamcatcher.howaboutit.data.database.protips.ProtipEntity
-import kotlinx.android.synthetic.main.grid_single_item.view.*
-import kotlinx.android.synthetic.main.horizontal_row_view.view.*
-import kotlinx.android.synthetic.main.two_items_row.view.left_item
-import kotlinx.android.synthetic.main.two_items_row.view.right_item
-import kotlinx.android.synthetic.main.two_items_with_protip_row.view.*
+import dreamcatcher.howaboutit.databinding.GridSingleItemBinding
+import dreamcatcher.howaboutit.databinding.TwoItemsRowBinding
+import dreamcatcher.howaboutit.databinding.TwoItemsWithProtipRowBinding
 
 class GeneralListAdapter (private val clickListener: (String) -> Unit) : RecyclerView.Adapter<GeneralListAdapter.ViewHolder>() {
 
@@ -54,25 +51,22 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        var viewHolder: ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
 
-        when (viewType) {
+        return when (viewType) {
 
             VIEW_TYPE_TWO_ITEMS_ROW -> {
-                val twoItemsRowView = inflater
-                    .inflate(R.layout.two_items_row, parent, false)
-                viewHolder = TwoItemsRowViewHolder(twoItemsRowView)
+                val binding = TwoItemsRowBinding.inflate(inflater, parent, false)
+                TwoItemsRowViewHolder(binding)
             }
 
             VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW -> {
-                val twoItemsWithProtipRowView = inflater
-                    .inflate(R.layout.two_items_with_protip_row, parent, false)
-                viewHolder = TwoItemsWithProtipRowViewHolder(twoItemsWithProtipRowView)
+                val binding = TwoItemsWithProtipRowBinding.inflate(inflater, parent, false)
+                TwoItemsWithProtipRowViewHolder(binding)
             }
-        }
 
-        return viewHolder!!
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -82,18 +76,6 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
             VIEW_TYPE_TWO_ITEMS_ROW -> {
                 val twoItemsRowViewHolder = holder as TwoItemsRowViewHolder
                 configureTwoItemsRowView(twoItemsRowViewHolder, position)
-
-                // Code that works for the first search (RecyclerView speedUp) - views recycling.
-                /*if (firstLoading) {
-                    val twoItemsRowView = inflater.inflate(R.layout.two_items_row, parent, false)
-                    viewHolder = TwoItemsRowViewHolder(twoItemsRowView)
-                    (rowViewsList as ArrayList).add(viewHolder)
-
-                } else {
-                    viewHolder = rowViewsList.get(0)
-                    (rowViewsList as ArrayList).removeAt(0)
-                    (rowViewsList as ArrayList).add(viewHolder)
-                }*/
             }
 
             VIEW_TYPE_TWO_ITEMS_WITH_PROTIP_ROW -> {
@@ -118,10 +100,10 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
         configureProtipView(holder, position)
     }
 
-    private fun configureLeftAndRightItemsViews(holder: TwoItemsRowViewHolder, position: Int) {
+    private fun configureLeftAndRightItemsViews(holder: ViewHolder, position: Int) {
 
-        var view: View? = null
-        var item: ItemEntity? = null
+        var view: GridSingleItemBinding?
+        var item: ItemEntity?
 
         for (i in 0..1) {
 
@@ -132,43 +114,51 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
             try {
 
                 // Select view
-                view = holder.views[i]
+                if (holder is TwoItemsRowViewHolder) {
+                    view = if (i == 0) holder.leftItem
+                    else holder.rightItem
+                }
+                if (holder is TwoItemsWithProtipRowViewHolder) {
+                    view = if (i == 0) holder.leftItem
+                    else holder.rightItem
+                }
 
                 // Ensure the view is visible (it could be hidden before)
-                view.visibility = View.VISIBLE
+                view?.root?.visibility = View.VISIBLE
 
                 // Select an item
                 item = itemsList[position][i]
 
                 // Prepare fetched data
                 val name = item.name
-                var imageLink = item.imageLink
+                val imageLink = item.imageLink
 
                 // Set data within the holder
-                view.name.text = name
+                view?.name?.text = name
 
                 // Set onClickListener
-                val itemId = item?.id
-                view.setOnClickListener{
+                val itemId = item.id
+                view?.root?.setOnClickListener{
                     clickListener(itemId)
                 }
 
                 // Load thumbnail
                 if (!imageLink.isNullOrEmpty()) {
-                    Picasso.get().load(imageLink).into(view.thumbnail)
-                    view.thumbnail_placeholder_text.visibility = View.INVISIBLE
+                    Picasso.get().load(imageLink).into(view?.thumbnail)
+                    view?.thumbnailPlaceholderText?.visibility = View.INVISIBLE
                 } else {
-                    view.thumbnail.setImageDrawable(null)
-                    view.thumbnail_placeholder_text.visibility = View.VISIBLE
+                    view?.thumbnail?.setImageDrawable(null)
+                    view?.thumbnailPlaceholderText?.visibility = View.VISIBLE
                 }
 
             } catch(e: Exception) {
-                Log.e("Exception", e.message);
+                val exceptionMessage = e.message ?: "No exception message"
+                Log.e("Exception", exceptionMessage)
             }
 
             // Hide second (right-hand side) view, if there is no item to be displayed there
             if (i == 1 && item == null) {
-                view?.visibility = View.INVISIBLE
+                view?.root?.visibility = View.INVISIBLE
             }
         }
     }
@@ -192,34 +182,26 @@ class GeneralListAdapter (private val clickListener: (String) -> Unit) : Recycle
             protipText = protip.protipText
         }
 
-        holder.views[2].protip_text.text = protipText
+        holder.protipItem.protipText.text = protipText
     }
 
-    abstract class ViewHolder (view: View) : RecyclerView.ViewHolder(view)
+    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    open inner class TwoItemsRowViewHolder (view: View) : ViewHolder(view) {
-        val views = ArrayList<View>()
-
-        init {
-            views.add(view.left_item)
-            views.add(view.right_item)
-        }
+    inner class TwoItemsRowViewHolder(binding: TwoItemsRowBinding) : ViewHolder(binding.root) {
+        val leftItem = binding.leftItem
+        val rightItem = binding.rightItem
     }
 
-    inner class TwoItemsWithProtipRowViewHolder (view: View) : TwoItemsRowViewHolder(view) {
-
-        init {
-            views.add(view.protip_item)
-        }
+    inner class TwoItemsWithProtipRowViewHolder(binding: TwoItemsWithProtipRowBinding) : ViewHolder(binding.root) {
+        val leftItem = binding.leftItem
+        val rightItem = binding.rightItem
+        val protipItem = binding.protipItem
     }
 
     // Converter grouping items together into 2-items clusters
-    private fun convertSingleItemsListIntoClustersList(itemsList: List<ItemEntity>)
-            : List<List<ItemEntity>> {
+    private fun convertSingleItemsListIntoClustersList(itemsList: List<ItemEntity>) : List<List<ItemEntity>> {
         val clustersList = ArrayList<List<ItemEntity>>()
-        itemsList.chunked(2).forEach {
-            clustersList.add(it)
-        }
+        itemsList.chunked(2).forEach { clustersList.add(it) }
         return clustersList
     }
 }
